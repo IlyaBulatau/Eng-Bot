@@ -7,6 +7,11 @@ import pytest
 
 @pytest.fixture(scope="session")
 def database() -> Collection:
+    """
+    Return mongodb collection
+    And
+    drop the database after tests 
+    """
     
     db: Collection = MongoDB().collection
     yield db
@@ -15,6 +20,10 @@ def database() -> Collection:
 
 @pytest.fixture(scope="session")
 def test_data(database) -> dict:
+    """
+    Create data for tests
+    """
+
     data = {
         "test": "OK"
     }
