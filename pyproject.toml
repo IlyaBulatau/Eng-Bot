@@ -9,6 +9,7 @@ readme = "README.md"
 python = "^3.10"
 python-telegram-bot = "^20.6"
 environs = "^9.5.0"
+pymongo = "^4.5.0"
 
 
 [build-system]
