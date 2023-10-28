@@ -10,9 +10,9 @@ def database() -> Collection:
     """
     Return mongodb collection
     And
-    drop the database after tests 
+    drop the database after tests
     """
-    
+
     db: Collection = MongoDB().collection
     yield db
     db.database.client.drop_database(Config.MONGO_DB_NAME)
@@ -24,7 +24,5 @@ def test_data(database) -> dict:
     Create data for tests
     """
 
-    data = {
-        "test": "OK"
-    }
+    data = {"test": "OK"}
     yield data

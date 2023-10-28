@@ -12,7 +12,7 @@ class RunManager:
 
     def __init__(self):
         self.env_file = EnvFile.DEV.value
-    
+
     def get_env(self) -> Path:
         """
         get env file
@@ -27,13 +27,13 @@ class RunManager:
 
         path_to_env = Path().parent.joinpath(self.env_file)
         return path_to_env
-    
+
 
 class Config:
     """
     Basically class for keep environments veriables
-    """    
-    
+    """
+
     env = Env()
     path_to_env = RunManager().get_env()
     env.read_env(path=path_to_env)
@@ -48,7 +48,6 @@ class EnvFile(Enum):
     """
     Set of env files
     """
-    
+
     DEV = ".env"
     TEST = ".env.test"
-    
