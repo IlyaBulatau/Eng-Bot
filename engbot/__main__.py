@@ -1,5 +1,5 @@
 from telegram.ext import ApplicationBuilder
-from database import MongoDB
+from database.mongo.mongodb import MongoDB
 
 
 
