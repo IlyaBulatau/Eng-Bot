@@ -1,8 +1,6 @@
 from config import Config
 from database.base import Database
 
-import certifi
-
 from pymongo import MongoClient
 from pymongo.collection import Collection
 from pymongo.database import Database as DB
@@ -18,7 +16,7 @@ class MongoDB(Database):
 
     
     def _connect_to_collection(self) -> Collection:
-        client = MongoClient(self.url, tlsCAFile=certifi.where())
+        client = MongoClient(self.url)
         database: DB = client[self.__DATABASE_NAME]
         collection: Collection = database[self.__COLLECTION_NAME]
 
