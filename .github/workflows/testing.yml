@@ -39,7 +39,7 @@ jobs:
     
     - name: Set up MongoDB
       run: | 
-         docker compose --env_file ${{ env.ENV_FILE }} -f docker-compose.dev.yaml up -d
+         docker compose --env-file ${{ env.ENV_FILE }} -f docker-compose.dev.yaml up -d
 
     - name: Test with pytest
       run: |
