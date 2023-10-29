@@ -1,6 +1,6 @@
 name: Testing Bot
 env:
-  ENV_FILE: ".env.test"
+  ENV_FILE: ".env"
 
 on:
   push:
@@ -27,10 +27,10 @@ jobs:
         pip install poetry
         poetry install
     
-    - name: Create .env.test file
+    - name: Create env file
       run: |
-          touch .env.test
-          echo BOT_TOKEN=${{ secrets.BOT_TOKEN }} >> .env.test
+          touch ${{ env.ENV_FILE }}
+          echo BOT_TOKEN=${{ secrets.BOT_TOKEN }} >> ${{ env.ENV_FILE }}
           echo DATABASE_URL="mongodb://test:test@0.0.0.0" >> ${{ env.ENV_FILE }}
           echo MONGO_DB_NAME="test" >> ${{ env.ENV_FILE }}
           echo MONGO_COLLECTION_NAME="test" >> ${{ env.ENV_FILE }}
@@ -43,4 +43,4 @@ jobs:
 
     - name: Test with pytest
       run: |
-        pytest .
+        poetry run pytest .
