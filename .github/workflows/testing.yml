@@ -45,4 +45,4 @@ jobs:
 
     - name: Test with pytest
       run: |
-        poetry run pytest .
+        poetry run pytest . -s -v
