@@ -5,6 +5,15 @@ import sys
 from enum import Enum
 
 
+class EnvFile(Enum):
+    """
+    Set of env files
+    """
+
+    DEV = ".env"
+    TEST = ".env.test"
+
+
 class RunManager:
     """
     Set up before run
@@ -42,12 +51,3 @@ class Config:
     DATABASE_URL = env("DATABASE_URL")
     MONGO_DB_NAME = env("MONGO_DB_NAME")
     MONGO_COLLECTION_NAME = env("MONGO_COLLECTION_NAME")
-
-
-class EnvFile(Enum):
-    """
-    Set of env files
-    """
-
-    DEV = ".env"
-    TEST = ".env.test"
