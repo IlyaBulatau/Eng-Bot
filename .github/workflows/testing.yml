@@ -1,7 +1,6 @@
 name: Testing Bot
 env:
   ENV_FILE: ".env"
-  ENV_TEST_FILE: ".env.test"
 
 on:
   push:
@@ -37,11 +36,10 @@ jobs:
           echo MONGO_COLLECTION_NAME="test" >> ${{ env.ENV_FILE }}
           echo MONGO_USERNAME="test" >> ${{ env.ENV_FILE }}
           echo MONGO_PASSWORD="test" >> ${{ env.ENV_FILE }}
-          cp ${{ env.ENV_FILE }} ${{ env.ENV_TEST_FILE }}
     
     - name: Set up MongoDB
       run: | 
-         docker compose -f docker-compose.dev.yaml up -d
+         docker compose --env_file ${{ env.ENV_FILE }} -f docker-compose.dev.yaml up -d
 
     - name: Test with pytest
       run: |
