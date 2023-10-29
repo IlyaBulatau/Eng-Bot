@@ -30,7 +30,7 @@ jobs:
     - name: Create .env.test file
       run: |
           touch .env.test
-          echo BOT_TOKEN=${{ sercrets.BOT_TOKEN }} >> .env.test
+          echo BOT_TOKEN=${{ secrets.BOT_TOKEN }} >> .env.test
           echo DATABASE_URL="mongodb://test:test@0.0.0.0" >> ${{ env.ENV_FILE }}
           echo MONGO_DB_NAME="test" >> ${{ env.ENV_FILE }}
           echo MONGO_COLLECTION_NAME="test" >> ${{ env.ENV_FILE }}
