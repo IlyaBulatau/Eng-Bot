@@ -1,5 +1,5 @@
-from config import Config
-from database.base import Database
+from engbot.config import Config
+from engbot.database.base import Database
 
 from pymongo import MongoClient
 from pymongo.collection import Collection

@@ -1,4 +1,4 @@
-from config import Config
+from engbot.config import Config
 
 
 class Database:
