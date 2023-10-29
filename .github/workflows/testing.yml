@@ -1,6 +1,6 @@
 name: Testing Bot
 env:
-  ENV_FILE: ".env"
+  ENV_FILE: ".env.test"
 
 on:
   push:
