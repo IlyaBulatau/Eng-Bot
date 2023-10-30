@@ -2,7 +2,7 @@ from pymongo.collection import Collection
 from pymongo.results import InsertOneResult
 
 
-class TestInsert:
+class TestConnect:
     def test_insert_one_data(self, database: Collection, test_data: dict):
         """
         Test insert one value in database
