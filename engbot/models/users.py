@@ -6,7 +6,7 @@ class User(BaseModel):
     Represeting user model
     """
 
-    telegram_id: str
+    telegram_id: str | int
     username: str
     language_code: str
 
