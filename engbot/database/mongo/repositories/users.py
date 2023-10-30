@@ -42,9 +42,7 @@ def create_user(collection: Collection, user_model: User) -> None:
     telegram_id: str | int = model.get("telegram_id")
 
     if is_do_exists_user(collection, telegram_id=telegram_id):
-        raise Exception(
-            f" User with '{telegram_id}' ID is exists in collection '{collection.name}'"
-        )
+        return
     try:
         collection.insert_one(model)
     except Exception as e:
