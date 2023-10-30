@@ -18,12 +18,10 @@ class BaseDatabase(ABC):
     def create_database(self):
         ...
 
-
     @abstractmethod
     def drop_database(self):
         ...
 
-
     @abstractmethod
     def get_connection(self):
-        ...    
+        ...
