@@ -1,7 +1,8 @@
 from engbot.config import Config
+from abc import abstractmethod, ABC
 
 
-class BaseDatabase:
+class BaseDatabase(ABC):
     """
     Base class for database classes
     """
@@ -12,3 +13,17 @@ class BaseDatabase:
     @property
     def url(self):
         return self.__url
+
+    @abstractmethod
+    def create_database(self):
+        ...
+
+
+    @abstractmethod
+    def drop_database(self):
+        ...
+
+
+    @abstractmethod
+    def get_connection(self):
+        ...    
