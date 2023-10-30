@@ -16,6 +16,5 @@ delete: # delete all containers
 test: # run tests
 	make $(test_db)
 	pytest . -s -v
-	make $(stop)
-	make $(delete)
-	
+	docker stop $$(docker ps -q)
+	docker rm $$(docker ps -a -q)
