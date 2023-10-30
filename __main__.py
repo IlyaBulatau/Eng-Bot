@@ -1,8 +1,8 @@
-from telegram.ext import ApplicationBuilder, ContextTypes, MessageHandler, filters
-from telegram import Update
+from telegram.ext import ApplicationBuilder
 
 import logging
 
+from engbot.handlers.setup_handlers import setup_handlers
 from engbot.config import Config
 
 
@@ -13,5 +13,7 @@ logging.basicConfig(
 
 if __name__ == "__main__":
     application = ApplicationBuilder().token(token=Config.BOT_TOKEN).build()
+
+    setup_handlers(application)
 
     application.run_polling()
