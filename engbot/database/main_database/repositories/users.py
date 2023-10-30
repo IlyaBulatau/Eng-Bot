@@ -1,3 +1,4 @@
+from typing import Any
 from engbot.models.users import User
 from engbot.database.main_database.db import Database
 from engbot.database.mongo.repositories.users import (
@@ -21,6 +22,8 @@ class DetailUser:
         )
         # remove _id key from dict
         user.pop("_id")
+
+        self.user_data: dict = user
 
         return user
 
