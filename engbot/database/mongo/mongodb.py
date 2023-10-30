@@ -1,12 +1,12 @@
 from engbot.config import Config
-from engbot.database.base import Database
+from engbot.database.base import BaseDatabase
 
 from pymongo import MongoClient
 from pymongo.collection import Collection
 from pymongo.database import Database as DB
 
 
-class MongoDB(Database):
+class MongoDB(BaseDatabase):
     def __init__(self):
         super().__init__()
         self.__DATABASE_NAME = Config.MONGO_DB_NAME

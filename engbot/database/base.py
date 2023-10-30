@@ -1,7 +1,7 @@
 from engbot.config import Config
 
 
-class Database:
+class BaseDatabase:
     """
     Base class for database classes
     """
