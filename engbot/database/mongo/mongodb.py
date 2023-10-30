@@ -19,6 +19,29 @@ class MongoDB(BaseDatabase):
         collection: Collection = database[self.__COLLECTION_NAME]
 
         return collection
+    
+
+    def create_database(self, database_name:str=None) -> None:
+        """
+        Create mongodb database
+        """
+        if database_name:
+            self.__DATABASE_NAME: DB = database_name
+
+
+    def drop_database(self, database_name:str=None) -> None:
+        """
+        Delete mongodb database
+        """
+        name: str = database_name if database_name else self.__DATABASE_NAME
+        self.__collection.database.client.drop_database(name)
+
+
+    def get_connection(self) -> Collection:
+        """
+        Return connection to mongodb collection
+        """
+        return self.collection
 
     @property
     def collection(self):
