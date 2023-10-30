@@ -1,3 +1,5 @@
+from dotmap import DotMap
+
 from pymongo.collection import Collection
 
 from engbot.models.users import User
@@ -28,8 +30,8 @@ class TestDetail:
         detail = DetailUser(telegram_id=test_user_data.get("telegram_id"))
         user = detail()
 
-        assert type(user) == dict
+        assert type(user) == DotMap
 
-        assert user.get("telegram_id") == test_user_data.get("telegram_id")
-        assert user.get("username") == test_user_data.get("username")
-        assert user.get("language_code") == test_user_data.get("language_code")
+        assert user.telegram_id == test_user_data.get("telegram_id")
+        assert user.username == test_user_data.get("username")
+        assert user.language_code == test_user_data.get("language_code")

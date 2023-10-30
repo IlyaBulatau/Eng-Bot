@@ -1,4 +1,5 @@
-from typing import Any
+from dotmap import DotMap
+
 from engbot.models.users import User
 from engbot.database.main_database.db import Database
 from engbot.database.mongo.repositories.users import (
@@ -12,10 +13,10 @@ class DetailUser:
     Class for getting information about user from database
     """
 
-    def __init__(self, telegram_id: str | int | None = None, **kwargs) -> User:
+    def __init__(self, telegram_id: str | int | None = None, **kwargs) -> None:
         self.telegram_id = telegram_id
 
-    def __call__(self, *args, **kwargs) -> User:
+    def __call__(self, *args, **kwargs) -> DotMap:
         connection = Database().collection
         user: dict = get_user_by_argument(
             collection=connection, telegram_id=self.telegram_id, **kwargs
@@ -23,9 +24,11 @@ class DetailUser:
         # remove _id key from dict
         user.pop("_id")
 
-        self.user_data: dict = user
+        user_obj = DotMap(user)
 
-        return user
+        self.user_data: dict = user_obj
+
+        return user_obj
 
 
 class CreateUser:
