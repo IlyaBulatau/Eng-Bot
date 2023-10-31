@@ -15,7 +15,7 @@ logging.basicConfig(
 if __name__ == "__main__":
     application = ApplicationBuilder().token(token=Config.BOT_TOKEN)
     builder = application.concurrent_updates(False).post_init(set_command_ui).build()
-    
+
     setup_handlers(builder)
-    
+
     builder.run_polling()
