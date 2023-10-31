@@ -81,7 +81,7 @@ async def receive_translate(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     await context.bot.send_message(
         chat_id=update.effective_chat.id,
-        text=f"Прекрасно! Можете взглянуть на свой словарь /dict",
+        text=f"Прекрасно! Можете взглянуть на свой словарь /words",
     )
 
     context.user_data.clear()
