@@ -36,6 +36,8 @@ jobs:
           echo MONGO_COLLECTION_NAME="test" >> ${{ env.ENV_FILE }}
           echo MONGO_USERNAME="test" >> ${{ env.ENV_FILE }}
           echo MONGO_PASSWORD="test" >> ${{ env.ENV_FILE }}
+          echo REDIS_HOST="localhost" >> ${{ env.ENV_FILE }}
+          echo REDIS_PORT="6379" >> ${{ env.ENV_FILE }}
     
     - name: Set up MongoDB
       run: | 
