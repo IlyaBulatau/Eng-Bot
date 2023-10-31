@@ -12,7 +12,7 @@ logging.basicConfig(
 
 
 if __name__ == "__main__":
-    application = ApplicationBuilder().token(token=Config.BOT_TOKEN).build()
+    application = ApplicationBuilder().token(token=Config.BOT_TOKEN).concurrent_updates(False).build()
 
     setup_handlers(application)
 
