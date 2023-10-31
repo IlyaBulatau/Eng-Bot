@@ -23,10 +23,10 @@ class State:
         Save data in storage
         """
 
-        self.storage.set(self.user_id, kwargs, self.ttl)
+        self.storage.hmset(self.user_id, kwargs)
 
     def get_data(self) -> dict | None:
-        data = self.storage.get(self.user_id)
+        data = self.storage.hgetall(self.user_id)
 
         return data if data else None
 

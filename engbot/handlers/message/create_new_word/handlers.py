@@ -9,6 +9,8 @@ from telegram import Update
 
 from enum import Enum
 
+from engbot.services.cache.states import State
+
 
 class StateEnum(Enum):
     eng_word: str = "ENG WORD"
@@ -39,7 +41,8 @@ async def receive_eng_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """
 
     word = update.effective_message.text
-    context.user_data.update(word=word)
+    state = State(update)
+    state.set_data(word=word)
 
     await context.bot.send_message(
         chat_id=update.effective_chat.id,
@@ -63,9 +66,10 @@ async def incorrectly_eng_word(update: Update, context: ContextTypes.DEFAULT_TYP
 """,
     )
 
-    user_data = context.user_data
+    state = State(update)
+    user_data = state.get_data()
 
-    if user_data == {}:
+    if not user_data:
         return StateEnum.eng_word.value
     return StateEnum.translate.value
 
@@ -77,19 +81,22 @@ async def receive_translate(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """
 
     translate = update.effective_message.text
-    context.user_data.update(translate=translate)
+    state = State(update)
+    state.set_data(translate=translate)
 
     await context.bot.send_message(
         chat_id=update.effective_chat.id,
         text=f"Прекрасно! Можете взглянуть на свой словарь /words",
     )
 
-    context.user_data.clear()
+    state.clear_data()
     return ConversationHandler.END
 
 
 async def command_cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    context.user_data.clear()
+    state = State(update)
+    state.clear_data()
+
     await context.bot.send_message(
         chat_id=update.effective_chat.id,
         text=f"Процесс прерван",
