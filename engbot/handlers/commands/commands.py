@@ -8,7 +8,7 @@ from engbot.database.main_database.repositories.users import CreateUser
 from engbot.models.users import User
 
 
-async def command_start_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def command_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.effective_user
     CreateUser(user_model=User(
         telegram_id=user.id,
@@ -24,14 +24,11 @@ async def command_start_handler(update: Update, context: ContextTypes.DEFAULT_TY
         )
 
 
-async def command_new_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await context.bot.send_message(
-        chat_id=update.effective_chat.id,
-        text="Mock for create new word",
-        )
+async def command_cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await context.bot.send_message(chat_id=update.effective_chat.id, text="Рабочих процессов нету")
 
 
-async def command_words_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def command_words(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await context.bot.send_message(
         chat_id=update.effective_chat.id,
         text="Mock for list of words",
