@@ -5,9 +5,6 @@ from telegram import Update
 from engbot.services.cache.storage import redis_cli
 
 
-SEC_TTL = 86400
-
-
 class State:
     def __init__(self, update: Update):
         self.storage: Redis = redis_cli
@@ -16,7 +13,7 @@ class State:
             raise Exception("update object must be Update instance")
         self.update: Update = update
         self.user_id: str = str(self.update.effective_user.id)
-        self.ttl = SEC_TTL
+        
 
     def set_data(self, **kwargs) -> None:
         """
