@@ -4,11 +4,18 @@ import pytest
 
 
 @pytest.fixture(scope="module")
-def test_cache_data() -> dict:
+def cache_obj():
+    yield redis_cli
+
+
+@pytest.fixture(scope="module")
+def test_cache_data(cache_obj) -> dict:
     """
     Data for test cache sustem
     """
-    yield {"testKey": "testValue"}
+    data = {"testKey": "testValue"} 
+    yield data
+    cache_obj.delete(next(iter(data.keys())))
 
 
 class TestConnection:
