@@ -20,7 +20,6 @@ class Word(BaseModel):
     def validate_all_fields(cls, kwargs):
         intersection_model_and_enum(Word, WordField)
         return kwargs
-    
 
 
 class WordList(BaseModel):
@@ -35,7 +34,7 @@ class WordList(BaseModel):
     def validate_all_fields(cls, kwargs):
         intersection_model_and_enum(WordList, WordListField)
         return kwargs
-    
+
 
 class WordField(Enum):
     ENG_WORD: str = "eng_word"

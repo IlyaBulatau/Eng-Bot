@@ -20,7 +20,6 @@ class User(BaseModel):
     def validate_all_fields(cls, kwargs):
         intersection_model_and_enum(User, Enum)
         return kwargs
-        
 
     @validator("telegram_id")
     def telegram_id_validate(cls, telegram_id: int | str) -> str:
@@ -38,4 +37,4 @@ class UserField(Enum):
     TELEGRAM_ID: str = "telegram_id"
     USERNAME: str = "username"
     LANGUAGE_CODE: str = "language_code"
-    WORDS: str =  "words"
+    WORDS: str = "words"

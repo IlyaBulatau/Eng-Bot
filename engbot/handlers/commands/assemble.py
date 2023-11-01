@@ -1,15 +1,18 @@
 from engbot.handlers.commands import commands
+from engbot.utils.set_command import CommandEnum
 
 from telegram.ext import CommandHandler, Application
 
 
 def assemble_commands(application: Application):
     application.add_handler(
-        CommandHandler(command="start", callback=commands.command_start)
+        CommandHandler(command=CommandEnum.START.value, callback=commands.command_start)
     )
     application.add_handler(
-        CommandHandler(command="words", callback=commands.command_words)
+        CommandHandler(command=CommandEnum.NEW.value, callback=commands.command_words)
     )
     application.add_handler(
-        CommandHandler(command="cancel", callback=commands.command_cancel)
+        CommandHandler(
+            command=CommandEnum.CANCEL.value, callback=commands.command_cancel
+        )
     )
