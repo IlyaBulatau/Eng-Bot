@@ -13,7 +13,7 @@ def test_cache_data(cache_obj) -> dict:
     """
     Data for test cache sustem
     """
-    data = {"testKey": "testValue"} 
+    data = {"testKey": "testValue"}
     yield data
     cache_obj.delete(next(iter(data.keys())))
 
