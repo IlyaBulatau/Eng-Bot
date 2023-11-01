@@ -1,6 +1,6 @@
 from pydantic import BaseModel, validator
 
-from datetime import datetime
+from datetime import date
 
 
 class Word(BaseModel):
@@ -27,5 +27,4 @@ class DateCreated(BaseModel):
     Object date created words
     """
 
-    created_on: datetime
-    words: Word
+    created_on: date = date.today()
