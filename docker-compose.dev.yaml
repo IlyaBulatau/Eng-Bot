@@ -21,7 +21,15 @@ services:
       - ME_CONFIG_MONGODB_SERVER=mongo
     depends_on:
       - mongo
+  
+  redis:
+    image: redis:alpine
+    ports:
+      - "${REDIS_PORT}:6379"
+    command: redis-server
+    volumes:
+      - redis_data:/data
 
 volumes:
   mongo_data:
-    
+  redis_data:    
