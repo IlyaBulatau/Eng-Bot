@@ -13,7 +13,6 @@ class State:
             raise Exception("update object must be Update instance")
         self.update: Update = update
         self.user_id: str = str(self.update.effective_user.id)
-        
 
     def set_data(self, **kwargs) -> None:
         """

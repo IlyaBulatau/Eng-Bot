@@ -1,14 +1,16 @@
 from pydantic import BaseModel, validator
+from engbot.models.words import DateCreated
 
 
 class User(BaseModel):
     """
-    Represeting user model
+    Representing user model
     """
 
     telegram_id: str | int
     username: str
     language_code: str
+    words: DateCreated | None = None
 
     @validator("telegram_id")
     def telegram_id_validate(cls, telegram_id: int | str) -> str:

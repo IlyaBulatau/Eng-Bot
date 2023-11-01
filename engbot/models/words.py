@@ -13,16 +13,14 @@ class Word(BaseModel):
     eng: str
     translate: str
 
-
     @validator("eng")
     def eng_to_capitalize(cls, eng: str):
         return eng.capitalize()
-    
-    
+
     @validator("translate")
     def eng_to_capitalize(cls, translate: str):
         return translate.capitalize()
-    
+
 
 class DateCreated(BaseModel):
     """
