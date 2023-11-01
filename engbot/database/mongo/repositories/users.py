@@ -22,7 +22,7 @@ def get_user_by_argument(collection: Collection, **kwargs) -> dict:
     return user
 
 
-def get_user_by_telegram_id(collection: Collection, telegram_id) -> dict:
+def get_user_by_telegram_id(collection: Collection, telegram_id: str | int) -> dict:
     """
     Return dict with user data
     """

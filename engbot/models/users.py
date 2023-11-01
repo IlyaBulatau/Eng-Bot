@@ -15,7 +15,7 @@ class User(BaseModel):
     @validator("telegram_id")
     def telegram_id_validate(cls, telegram_id: int | str) -> str:
         if isinstance(telegram_id, int):
-            return telegram_id
+            return str(telegram_id)
         elif isinstance(telegram_id, str) and telegram_id.isdigit():
             return telegram_id
         else:
