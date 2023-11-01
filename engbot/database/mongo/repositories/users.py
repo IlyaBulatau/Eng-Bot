@@ -1,8 +1,11 @@
 from pymongo.collection import Collection
-from engbot.models.users import User
+from engbot.models.users import User, UserField
 
 
-def get_user_by_argument(collection: Collection, **kwargs) -> dict:
+MONGO_ID_FIELD = "_id"
+
+
+def get_user_by_argument(collection: Collection, **kwargs) -> User:
     """
     Receive arguments, check they, find user by arguments
     Return dict with user data
@@ -17,16 +20,20 @@ def get_user_by_argument(collection: Collection, **kwargs) -> dict:
             f"Next arguments {' '.join(difference)} is not valid, accept field: {' '.join(model_fields)}"
         )
 
-    user = collection.find_one(kwargs)
+    find: dict = collection.find_one(kwargs)
+
+    # remove _id key from dict
+    find.pop(MONGO_ID_FIELD)
+    user = User(**find)
 
     return user
 
 
-def get_user_by_telegram_id(collection: Collection, telegram_id: str | int) -> dict:
+def get_user_by_telegram_id(collection: Collection, telegram_id: str | int) -> User:
     """
     Return dict with user data
     """
-    user: dict = get_user_by_argument(collection, telegram_id=telegram_id)
+    user: User = get_user_by_argument(collection, telegram_id=telegram_id)
     return user
 
 
@@ -39,7 +46,7 @@ def create_user(collection: Collection, user_model: User) -> None:
     Create new user in Mongodb database
     """
     model: dict = user_model.model_dump()
-    telegram_id: str | int = model.get("telegram_id")
+    telegram_id: str | int = model.get(UserField.TELEGRAM_ID.value)
 
     if is_do_exists_user(collection, telegram_id=telegram_id):
         return
@@ -60,7 +67,7 @@ def is_do_exists_user(collection: Collection, telegram_id: str | int):
     else - return False
     """
 
-    user = collection.find_one({"telegram_id": str(telegram_id)})
+    user = collection.find_one({UserField.TELEGRAM_ID.value: str(telegram_id)})
     if user:
         return True
     return False
