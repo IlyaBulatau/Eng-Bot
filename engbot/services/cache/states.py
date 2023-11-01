@@ -1,5 +1,4 @@
 from redis import Redis
-from telegram.ext import ContextTypes
 from telegram import Update
 
 from engbot.services.cache.storage import redis_cli
@@ -26,5 +25,5 @@ class State:
 
         return data if data else None
 
-    def clear_data(self):
+    def clear_data(self) -> None:
         self.storage.delete(self.user_id)
