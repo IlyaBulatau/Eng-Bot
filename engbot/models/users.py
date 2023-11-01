@@ -16,7 +16,7 @@ class User(BaseModel):
     language_code: str
     words: list[WordList] | None = None
 
-    @validator("telegram_id", "username", "language_code")
+    @validator("telegram_id", "username", "language_code", "words")
     def validate_all_fields(cls, kwargs):
         intersection_model_and_enum(User, Enum)
         return kwargs

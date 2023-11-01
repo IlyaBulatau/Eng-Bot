@@ -30,7 +30,7 @@ class WordList(BaseModel):
     created_on: date = date.today()
     words: list[Word]
 
-    @validator("created", "words")
+    @validator("created_on", "words")
     def validate_all_fields(cls, kwargs):
         intersection_model_and_enum(WordList, WordListField)
         return kwargs
