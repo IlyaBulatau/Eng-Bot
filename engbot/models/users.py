@@ -1,5 +1,7 @@
 from pydantic import BaseModel, validator
-from engbot.models.words import DateCreated
+
+from engbot.models.words import WordList
+from engbot.utils.helpers import intersection_model_and_enum
 
 from enum import Enum
 
@@ -12,18 +14,11 @@ class User(BaseModel):
     telegram_id: str | int
     username: str
     language_code: str
-    words: DateCreated | None = None
+    words: list[WordList] | None = None
 
     @validator("telegram_id", "username", "language_code")
     def validate_all_fields(cls, kwargs):
-        """
-        Enum class in this module must match with this class
-        """
-        self_fields = set(User.model_fields.keys())
-        enum_fields = set(elem.value for elem in tuple(UserField))
-        
-        if len(self_fields.intersection(enum_fields)) != len(enum_fields):
-            raise Exception("Fileds in model and enum class must match")
+        intersection_model_and_enum(User, Enum)
         return kwargs
         
 
