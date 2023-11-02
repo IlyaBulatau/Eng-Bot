@@ -30,10 +30,3 @@ async def command_cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await context.bot.send_message(
         chat_id=update.effective_chat.id, text="Рабочих процессов нету"
     )
-
-
-async def command_words(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await context.bot.send_message(
-        chat_id=update.effective_chat.id,
-        text="Mock for create new word",
-    )

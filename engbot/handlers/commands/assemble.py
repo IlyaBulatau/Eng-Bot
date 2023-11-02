@@ -9,9 +9,6 @@ def assemble_commands(application: Application):
         CommandHandler(command=CommandEnum.START.value, callback=commands.command_start)
     )
     application.add_handler(
-        CommandHandler(command=CommandEnum.NEW.value, callback=commands.command_words)
-    )
-    application.add_handler(
         CommandHandler(
             command=CommandEnum.CANCEL.value, callback=commands.command_cancel
         )
