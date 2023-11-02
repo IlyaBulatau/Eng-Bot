@@ -24,6 +24,7 @@ def get_user_by_argument(collection: Collection, **kwargs) -> User:
 
     # remove _id key from dict
     find.pop(MONGO_ID_FIELD)
+    find.pop(UserField.WORDS.value)
     user = User(**find)
 
     return user
