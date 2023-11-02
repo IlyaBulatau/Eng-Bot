@@ -14,7 +14,7 @@ class User(BaseModel):
     telegram_id: str | int
     username: str
     language_code: str
-    words: list[WordList] | None = None
+    words: list[WordList] | list = []
 
     @validator("telegram_id", "username", "language_code", "words")
     def validate_all_fields(cls, kwargs):
