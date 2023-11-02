@@ -7,14 +7,10 @@ from telegram.ext import (
 )
 from telegram import Update
 
-from enum import Enum
-
+from engbot.database.main_database.repositories.words import CreateWord
 from engbot.services.cache.states import State
-
-
-class StateEnum(Enum):
-    eng_word: str = "ENG WORD"
-    translate: str = "TRANSLATE"
+from engbot.models.words import WordField
+from engbot.utils.set_command import CommandEnum
 
 
 async def command_new_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -31,7 +27,7 @@ async def command_new_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
         """,
     )
 
-    return StateEnum.eng_word.value
+    return WordField.ENG_WORD.value
 
 
 async def receive_eng_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -42,7 +38,7 @@ async def receive_eng_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     word = update.effective_message.text
     state = State(update)
-    state.set_data(word=word)
+    state.set_data(eng_word=word)
 
     await context.bot.send_message(
         chat_id=update.effective_chat.id,
@@ -52,12 +48,10 @@ async def receive_eng_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
 """,
     )
 
-    return StateEnum.translate.value
+    return WordField.TRANSlATE.value
 
 
 async def incorrectly_eng_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    word = update.effective_message.text
-
     await context.bot.send_message(
         chat_id=update.effective_chat.id,
         text="""
@@ -70,8 +64,8 @@ async def incorrectly_eng_word(update: Update, context: ContextTypes.DEFAULT_TYP
     user_data = state.get_data()
 
     if not user_data:
-        return StateEnum.eng_word.value
-    return StateEnum.translate.value
+        return WordField.ENG_WORD.value
+    return WordField.TRANSlATE.value
 
 
 async def receive_translate(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -89,6 +83,7 @@ async def receive_translate(update: Update, context: ContextTypes.DEFAULT_TYPE):
         text=f"Прекрасно! Можете взглянуть на свой словарь /words",
     )
 
+    CreateWord(str(update.effective_user.id), **state.get_data())
     state.clear_data()
     return ConversationHandler.END
 
@@ -106,9 +101,11 @@ async def command_cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 HANDLER_CREATE_NEW_WORD = ConversationHandler(
-    entry_points=[CommandHandler(command="new", callback=command_new_word)],
+    entry_points=[
+        CommandHandler(command=CommandEnum.NEW.value, callback=command_new_word)
+    ],
     states={
-        StateEnum.eng_word.value: [
+        WordField.ENG_WORD.value: [
             MessageHandler(
                 filters=filters.TEXT
                 & ~filters.COMMAND
@@ -119,7 +116,7 @@ HANDLER_CREATE_NEW_WORD = ConversationHandler(
                 filters=filters.ALL & ~filters.COMMAND, callback=incorrectly_eng_word
             ),
         ],
-        StateEnum.translate.value: [
+        WordField.TRANSlATE.value: [
             MessageHandler(
                 filters=filters.TEXT
                 & ~filters.COMMAND
@@ -131,5 +128,7 @@ HANDLER_CREATE_NEW_WORD = ConversationHandler(
             ),
         ],
     },
-    fallbacks=[CommandHandler(command="cancel", callback=command_cancel)],
+    fallbacks=[
+        CommandHandler(command=CommandEnum.CANCEL.value, callback=command_cancel)
+    ],
 )
