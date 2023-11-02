@@ -21,6 +21,9 @@ class DetailUser(DetailBase):
 class CreateUser(CreateBase):
     """
     Class for creating new user in database
+
+    Receiving kwargs it must be containe data for creating 'User' object
+    :Look 'UserField' class
     """
 
     def __init__(self, user_model: User) -> None:
