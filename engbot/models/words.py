@@ -27,7 +27,7 @@ class WordList(BaseModel):
     Object date created words
     """
 
-    created_on: date = date.today()
+    created_on: date | str = date.today()
     words: list[Word]
 
     @validator("created_on", "words")
