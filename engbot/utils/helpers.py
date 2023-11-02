@@ -6,11 +6,25 @@ from enum import Enum
 def convert_date_to_string(date: date) -> str:
     """
     Convert date object to string object
+
+    Returning date in formatt d02112023 corresponds 02-11-2023
+
+    Some databases don't allow put date or string that start with numbers
+    Thus this function returning date that in this format
     """
-    _format = "%-d%m%Y"
+    _format = "%d%m%Y"
     result: str = date.strftime(_format)
 
     return "d" + result
+
+
+def reform_from_string_to_string_of_date(string_of_date: str) -> str:
+    """
+    Reform from d02112023 to 02-11-2023
+    """
+    sod = string_of_date[1:]  # remove first letter 'd'
+    result = sod[:2] + "-" + sod[2:4] + "-" + sod[4:]  # addition result
+    return result
 
 
 def intersection_model_and_enum(obj_model: BaseModel, obj_enum: Enum):
