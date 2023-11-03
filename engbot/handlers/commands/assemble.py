@@ -13,3 +13,6 @@ def assemble_commands(application: Application):
             command=CommandEnum.CANCEL.value, callback=commands.command_cancel
         )
     )
+    application.add_handler(
+        CommandHandler(command=CommandEnum.WORDS.value, callback=commands.command_words)
+    )
