@@ -1,6 +1,7 @@
 from engbot.database.main_database.db import Database
 from engbot.models.users import UserField
 from engbot.models.words import WordField
+from engbot.services.cache.storage import redis_cli
 
 from pymongo.collection import Collection
 
@@ -19,6 +20,11 @@ def database() -> Collection:
     conn: Collection = db.get_connection()
     yield conn
     db.drop_database()
+
+
+@pytest.fixture(scope="session")
+def cache_obj():
+    yield redis_cli
 
 
 @pytest.fixture(scope="session")
