@@ -34,10 +34,10 @@ class CahceCurrentUserPage(BaseStorage):
 
     def __init__(self, user_telegram_id: int | str):
         super().__init__()
-        self.telegrm_id = user_telegram_id
-        self.__cache_key = self.CACHE_PREFIX + self.CACHE_SEP + self.telegrm_id
-        self.__start_page = 0
-        self.ttl_sec = 2419200  # 1 mounth
+        self.telegrm_id: str = str(user_telegram_id)
+        self.__cache_key: str = self.CACHE_PREFIX + self.CACHE_SEP + self.telegrm_id
+        self.__start_page: int = 0
+        self.ttl_sec: int = 2419200  # 1 mounth
 
     @property
     def cache_key(self):
@@ -47,13 +47,6 @@ class CahceCurrentUserPage(BaseStorage):
     def start_page(self):
         return self.__start_page
 
-    def set_page(self):
-        """
-        Set up current page of user in cache
-        """
-        self.storage.set(
-            name=self.__cache_key, value=self.__start_page, ex=self.ttl_sec
-        )
 
     def get_current_page(self):
         """
@@ -71,7 +64,12 @@ class CahceCurrentUserPage(BaseStorage):
         return True
 
     def update_page(self, amount=1):
+        """
+        Update key on amount value
+        If key not exists - creating the key
+        """
         if amount < 0:
-            self.storage.decr(amount)
+            self.storage.decr(self.__cache_key, amount)
         else:
-            self.storage.incr(amount)
+            self.storage.incr(self.__cache_key, amount)
+        
