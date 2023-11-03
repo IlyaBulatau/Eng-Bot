@@ -22,7 +22,7 @@ def keyboard_of_words(
     :offset -     which date with words will showing, starting from the end array
     """
     count_date_of_words = len(words_list) - 1
-    
+
     markup: list[list[InlineKeyboardButton]] = [
         [
             InlineKeyboardButton(
@@ -33,12 +33,12 @@ def keyboard_of_words(
         for word_object in words_list[offset].words
     ][:limit]
 
-    if offset == count_date_of_words - 1:
+    arrows_bar = create_low_arrows_bar_to_keyboards()
+    if offset == count_date_of_words:
         arrows_bar = create_low_arrows_bar_to_keyboards(right_arraow=False)
     if offset == 0:
         arrows_bar = create_low_arrows_bar_to_keyboards(left_arrows=False)
 
-    
     markup.extend(arrows_bar)
 
     return InlineKeyboardMarkup(markup)
