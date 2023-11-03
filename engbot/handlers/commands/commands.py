@@ -50,7 +50,7 @@ async def command_words(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     # set current page zero
     cache = CahceCurrentUserPage(user_telegram_id=user_telegram_id)
-    cache.update_page(amount=0)
+    cache.set_current_page()
 
     get_words = ListWord(telegram_id=user_telegram_id)
     words: list[WordList] = get_words()
