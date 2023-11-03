@@ -1,0 +1,5 @@
+LEFT_BUTTOM = "<<"
+RIGHT_BUTTOM = ">>"
+
+ENGLISH_LAGUAGE = "en"
+RUSSIAN_LANGUAGE = "ry"
