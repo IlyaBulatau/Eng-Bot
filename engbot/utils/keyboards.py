@@ -35,7 +35,7 @@ def keyboard_of_words(
     markup: list[list[InlineKeyboardButton]] = [
         [
             InlineKeyboardButton(
-                text=word_object.model_dump().get(type_of_word),
+                text=word_object.model_dump().get(type_of_word).capitalize(),
                 callback_data=words_list[offset].created_on,
             )
         ]
@@ -61,7 +61,7 @@ def create_low_arrows_bar_to_keyboards(
     left_arrows=True, right_arraow=True, language_type=RUSSIAN_LANGUAGE
 ) -> list[InlineKeyboardButton]:
     markup = []
-    middle_text = "🇬🇧" if language_type == ENGLISH_LAGUAGE else "🇷🇺"
+    middle_text = "🇬🇧" if language_type == RUSSIAN_LANGUAGE else "🇷🇺"
 
     left_buttom = InlineKeyboardButton(text="<<", callback_data=LEFT_BUTTON)
     right_buttom = InlineKeyboardButton(text=">>", callback_data=RIGHT_BUTTON)
