@@ -29,7 +29,7 @@ class TestCacheCurrentPage:
         assert bool_res == False
 
     def test_set_page(self, tracker: CahceCurrentUserPage):
-        tracker.update_page()
+        tracker.set_current_page()
 
         assert tracker.get_current_page() == 0
 
