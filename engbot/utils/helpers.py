@@ -2,7 +2,12 @@ from datetime import date
 from pydantic import BaseModel
 from enum import Enum
 
-from engbot.utils.callback_datas import RIGHT_BUTTOM, LEFT_BUTTOM
+from engbot.utils.callback_datas import (
+    RIGHT_BUTTON,
+    LEFT_BUTTON,
+    ENGLISH_LAGUAGE,
+    RUSSIAN_LANGUAGE,
+)
 
 
 DATE_FORMAT = "%d%m%Y"
@@ -49,4 +54,11 @@ def accept_callback_arrows(callback_data: str):
     """
     Checking what the callback data for arrows menu is equal to
     """
-    return True if callback_data == RIGHT_BUTTOM or LEFT_BUTTOM else False
+    return True if callback_data in (RIGHT_BUTTON, LEFT_BUTTON) else False
+
+
+def accept_callback_language_type(callback_data: str):
+    """
+    Checking what the callback data for language button is equal to
+    """
+    return True if callback_data in (ENGLISH_LAGUAGE, RUSSIAN_LANGUAGE) else False

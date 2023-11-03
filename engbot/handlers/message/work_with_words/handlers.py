@@ -5,10 +5,15 @@ from engbot.services.cache.states import CahceCurrentUserPage
 from engbot.utils.keyboards import keyboard_of_words
 from engbot.database.main_database.repositories.words import ListWord
 from engbot.models.words import WordList
-from engbot.utils.callback_datas import LEFT_BUTTON, RIGHT_BUTTON
+from engbot.utils.callback_datas import (
+    LEFT_BUTTON,
+    RIGHT_BUTTON,
+    ENGLISH_LAGUAGE,
+    RUSSIAN_LANGUAGE,
+)
 
 
-async def callback_arrows(update: Update, context: ContextTypes):
+async def callback_arrows(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """
     Reacts on touch arrows buttom
 
@@ -36,6 +41,34 @@ async def callback_arrows(update: Update, context: ContextTypes):
     # build answer
     date_created_words: str = words[current_page].created_on
     markup = keyboard_of_words(words_list=words, offset=current_page)
+
+    await callback.edit_message_text(
+        text=f"Дата добавления: {date_created_words}", reply_markup=markup
+    )
+
+
+async def callback_language_buttom(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    # callback datas
+    callback: CallbackQuery = update.callback_query
+    callback_data = callback.data
+    user_telegram_id: int = callback.from_user.id
+
+    update_language = (
+        ENGLISH_LAGUAGE if callback_data == RUSSIAN_LANGUAGE else RUSSIAN_LANGUAGE
+    )
+
+    # get words
+    get_words = ListWord(user_telegram_id)
+    words: list[WordList] = get_words()
+
+    # update current page in cache
+    cache = CahceCurrentUserPage(user_telegram_id=user_telegram_id)
+    current_page = cache.get_current_page()
+
+    date_created_words: str = words[current_page].created_on
+    markup = keyboard_of_words(
+        words_list=words, offset=current_page, language_type=update_language
+    )
 
     await callback.edit_message_text(
         text=f"Дата добавления: {date_created_words}", reply_markup=markup

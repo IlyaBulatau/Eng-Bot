@@ -10,7 +10,10 @@ from engbot.utils.callback_datas import (
 
 
 def keyboard_of_words(
-    words_list: list[WordList], limit: int = 10, offset: int = 0
+    words_list: list[WordList],
+    limit: int = 10,
+    offset: int = 0,
+    language_type: str = ENGLISH_LAGUAGE,
 ) -> InlineKeyboardMarkup:
     """
     Create keyboard for show words
@@ -23,21 +26,31 @@ def keyboard_of_words(
     """
     count_date_of_words = len(words_list) - 1
 
+    type_of_word = (
+        WordField.ENG_WORD.value
+        if language_type == ENGLISH_LAGUAGE
+        else WordField.TRANSlATE.value
+    )
+
     markup: list[list[InlineKeyboardButton]] = [
         [
             InlineKeyboardButton(
-                text=word_object.model_dump().get(WordField.ENG_WORD.value),
+                text=word_object.model_dump().get(type_of_word),
                 callback_data=words_list[offset].created_on,
             )
         ]
         for word_object in words_list[offset].words
     ][:limit]
 
-    arrows_bar = create_low_arrows_bar_to_keyboards()
+    arrows_bar = create_low_arrows_bar_to_keyboards(language_type=language_type)
     if offset == count_date_of_words:
-        arrows_bar = create_low_arrows_bar_to_keyboards(right_arraow=False)
+        arrows_bar = create_low_arrows_bar_to_keyboards(
+            right_arraow=False, language_type=language_type
+        )
     if offset == 0:
-        arrows_bar = create_low_arrows_bar_to_keyboards(left_arrows=False)
+        arrows_bar = create_low_arrows_bar_to_keyboards(
+            left_arrows=False, language_type=language_type
+        )
 
     markup.extend(arrows_bar)
 
@@ -45,14 +58,14 @@ def keyboard_of_words(
 
 
 def create_low_arrows_bar_to_keyboards(
-    left_arrows=True, right_arraow=True, language_turn=RUSSIAN_LANGUAGE
+    left_arrows=True, right_arraow=True, language_type=RUSSIAN_LANGUAGE
 ) -> list[InlineKeyboardButton]:
     markup = []
-    middle_text = "🇬🇧" if language_turn == ENGLISH_LAGUAGE else "🇷🇺"
+    middle_text = "🇬🇧" if language_type == ENGLISH_LAGUAGE else "🇷🇺"
 
     left_buttom = InlineKeyboardButton(text="<<", callback_data=LEFT_BUTTON)
     right_buttom = InlineKeyboardButton(text=">>", callback_data=RIGHT_BUTTON)
-    midle_buttom = InlineKeyboardButton(text=middle_text, callback_data=language_turn)
+    midle_buttom = InlineKeyboardButton(text=middle_text, callback_data=language_type)
 
     if left_arrows:
         markup.append(left_buttom)
