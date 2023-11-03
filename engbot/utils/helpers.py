@@ -3,6 +3,9 @@ from pydantic import BaseModel
 from enum import Enum
 
 
+DATE_FORMAT = "%d%m%Y"
+
+
 def convert_date_to_string(date: date) -> str:
     """
     Convert date object to string object
@@ -12,8 +15,7 @@ def convert_date_to_string(date: date) -> str:
     Some databases don't allow put date or string that start with numbers
     Thus this function returning date that in this format
     """
-    _format = "%d%m%Y"
-    result: str = date.strftime(_format)
+    result: str = date.strftime(DATE_FORMAT)
 
     return "d" + result
 
