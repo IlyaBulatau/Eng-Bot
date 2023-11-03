@@ -1,5 +1,6 @@
 from engbot.database.main_database.db import Database
 from engbot.models.users import UserField
+from engbot.models.words import WordField
 
 from pymongo.collection import Collection
 
@@ -40,4 +41,13 @@ def test_user_data(database) -> dict:
         UserField.USERNAME.value: "@bob",
         UserField.LANGUAGE_CODE.value: "en",
     }
+    yield data
+
+
+@pytest.fixture(scope="session")
+def test_word_data(database) -> dict:
+    """
+    Create word for test
+    """
+    data = {WordField.ENG_WORD.value: "hi", WordField.TRANSlATE.value: "привет"}
     yield data
