@@ -5,7 +5,7 @@ from engbot.services.cache.states import CahceCurrentUserPage
 from engbot.utils.keyboards import keyboard_of_words
 from engbot.database.main_database.repositories.words import ListWord
 from engbot.models.words import WordList
-from engbot.utils.callback_datas import LEFT_BUTTOM, RIGHT_BUTTOM
+from engbot.utils.callback_datas import LEFT_BUTTON, RIGHT_BUTTON
 
 
 async def callback_arrows(update: Update, context: ContextTypes):
@@ -26,9 +26,9 @@ async def callback_arrows(update: Update, context: ContextTypes):
     # update current page in cache
     cache = CahceCurrentUserPage(user_telegram_id=user_telegram_id)
 
-    if callback_data == LEFT_BUTTOM:
+    if callback_data == LEFT_BUTTON:
         cache.update_page(amount=1, decrease=False)
-    elif callback_data == RIGHT_BUTTOM:
+    elif callback_data == RIGHT_BUTTON:
         cache.update_page(amount=1)
 
     current_page: int = cache.get_current_page()

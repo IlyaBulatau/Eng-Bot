@@ -2,8 +2,8 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
 from engbot.models.words import WordList, WordField
 from engbot.utils.callback_datas import (
-    LEFT_BUTTOM,
-    RIGHT_BUTTOM,
+    LEFT_BUTTON,
+    RIGHT_BUTTON,
     ENGLISH_LAGUAGE,
     RUSSIAN_LANGUAGE,
 )
@@ -50,8 +50,8 @@ def create_low_arrows_bar_to_keyboards(
     markup = []
     middle_text = "🇬🇧" if language_turn == ENGLISH_LAGUAGE else "🇷🇺"
 
-    left_buttom = InlineKeyboardButton(text="<<", callback_data=LEFT_BUTTOM)
-    right_buttom = InlineKeyboardButton(text=">>", callback_data=RIGHT_BUTTOM)
+    left_buttom = InlineKeyboardButton(text="<<", callback_data=LEFT_BUTTON)
+    right_buttom = InlineKeyboardButton(text=">>", callback_data=RIGHT_BUTTON)
     midle_buttom = InlineKeyboardButton(text=middle_text, callback_data=language_turn)
 
     if left_arrows:
