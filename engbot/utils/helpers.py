@@ -2,6 +2,8 @@ from datetime import date
 from pydantic import BaseModel
 from enum import Enum
 
+from engbot.utils.callback_datas import RIGHT_BUTTOM, LEFT_BUTTOM
+
 
 DATE_FORMAT = "%d%m%Y"
 
@@ -41,3 +43,10 @@ def intersection_model_and_enum(obj_model: BaseModel, obj_enum: Enum):
         raise Exception(
             f"Fileds in model and enum class must match\n\nModel: {obj_model.__name__}, Enum: {obj_enum.__name__}"
         )
+
+
+def accept_callback_arrows(callback_data: str):
+    """
+    Checking what the callback data for arrows menu is equal to
+    """
+    return True if callback_data == RIGHT_BUTTOM or LEFT_BUTTOM else False
