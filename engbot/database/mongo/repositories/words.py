@@ -22,8 +22,8 @@ def create_word_of_user(
 
     # if not date today in database
     collection.update_one(
-        upsert=True,
-        filter={UserField.TELEGRAM_ID.value: telegram_id},
+        upsert=False,
+        filter={UserField.TELEGRAM_ID.value: telegram_id, f"{UserField.WORDS.value}.{WordListField.CREATED_ON.value}.{date_today}": {"$exists": 0},},
         update={"$addToSet": {UserField.WORDS.value: created_on}},
     )
 
