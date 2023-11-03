@@ -1,7 +1,7 @@
 from engbot.models.users import User
 from engbot.database.main_database.repositories.base import CreateBase, DetailBase
 from engbot.database.mongo.repositories.users import (
-    get_user_by_argument,
+    get_user_by_telegram_id,
     create_user,
 )
 
@@ -12,8 +12,8 @@ class DetailUser(DetailBase):
     """
 
     def __call__(self, *args, **kwargs) -> User:
-        user: User = get_user_by_argument(
-            collection=self.connection, telegram_id=self.telegram_id, **kwargs
+        user: User = get_user_by_telegram_id(
+            collection=self.connection, telegram_id=str(self.telegram_id)
         )
         return user
 
