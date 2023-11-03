@@ -4,3 +4,8 @@ from engbot.config import Config
 
 
 redis_cli = Redis(host=Config.REDIS_HOST, port=Config.REDIS_PORT, decode_responses=True)
+
+
+class BaseStorage:
+    def __init__(self):
+        self.storage: Redis = redis_cli
