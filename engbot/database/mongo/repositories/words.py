@@ -13,7 +13,7 @@ def create_word_of_user(
 ) -> None:
     """
     Create word in mongoDB with datetime key
-    if the data not exists, created and insert this data 
+    if the data not exists, created and insert this data
     """
     date_today = convert_date_to_string(date.today())
     created_on = {WordListField.CREATED_ON.value: {date_today: []}}
@@ -46,9 +46,8 @@ def create_word_of_user(
 def get_all_words_of_user(
     collection: Collection, telegram_id: str | int
 ) -> list[WordList]:
-    
     list_words_by_dates: list[WordList] = get_user_by_telegram_id(
         collection=collection, telegram_id=telegram_id
     )
-    
+
     return list_words_by_dates
