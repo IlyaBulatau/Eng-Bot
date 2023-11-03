@@ -5,7 +5,7 @@ from engbot.models.users import User, UserField
 MONGO_ID_FIELD = "_id"
 
 
-def get_user_by_argument(collection: Collection, **kwargs) -> User:
+def get_user_by_argument(collection: Collection, **kwargs) -> dict:
     """
     Receive arguments, check they, find user by arguments
     Return dict with user data
@@ -20,12 +20,10 @@ def get_user_by_argument(collection: Collection, **kwargs) -> User:
             f"Next arguments {' '.join(difference)} is not valid, accept field: {' '.join(model_fields)}"
         )
 
-    find: dict = collection.find_one(kwargs)
+    user: dict = collection.find_one(kwargs)
 
-    # remove _id key and words list from dict
-    find.pop(MONGO_ID_FIELD)
-    find.pop(UserField.WORDS.value)
-    user = User(**find)
+    # remove _id key from dict
+    user.pop(MONGO_ID_FIELD)
 
     return user
 
@@ -34,7 +32,10 @@ def get_user_by_telegram_id(collection: Collection, telegram_id: str | int) -> U
     """
     Return dict with user data
     """
-    user: User = get_user_by_argument(collection, telegram_id=telegram_id)
+    user_dict: dict = get_user_by_argument(collection, telegram_id=str(telegram_id))
+    user_dict.pop(UserField.WORDS.value)
+    user = User(**user_dict)
+
     return user
 
 

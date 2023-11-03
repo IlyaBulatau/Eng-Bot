@@ -5,7 +5,7 @@ from datetime import date
 from engbot.utils.helpers import convert_date_to_string
 from engbot.models.words import WordList, Word, WordListField
 from engbot.models.users import UserField
-from engbot.database.mongo.repositories.users import get_user_by_telegram_id
+from engbot.database.mongo.repositories.users import get_user_by_argument
 
 
 def create_word_of_user(
@@ -46,8 +46,8 @@ def create_word_of_user(
 def get_all_words_of_user(
     collection: Collection, telegram_id: str | int
 ) -> list[WordList]:
-    list_words_by_dates: list[WordList] = get_user_by_telegram_id(
-        collection=collection, telegram_id=telegram_id
+    user_dict: dict = get_user_by_argument(
+        collection=collection, telegram_id=str(telegram_id)
     )
 
-    return list_words_by_dates
+    return user_dict
