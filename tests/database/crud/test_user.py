@@ -24,7 +24,7 @@ class TestCreate:
 
 class TestDetail:
     def test_get_one_user(self, database: Collection, test_user_data: dict):
-        detail = DetailUser(telegram_id=test_user_data.get("telegram_id"))
+        detail = DetailUser(telegram_id=test_user_data.get(UserField.TELEGRAM_ID.value))
         user = detail()
 
         assert type(user) == User
