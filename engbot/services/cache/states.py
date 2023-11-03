@@ -47,6 +47,12 @@ class CahceCurrentUserPage(BaseStorage):
     def start_page(self):
         return self.__start_page
 
+    def set_current_page(self):
+        """
+        Set current page of user in cache
+        """
+        self.storage.set(name=self.__cache_key, value=self.__start_page)
+
     def get_current_page(self):
         """
         Get current page of user from cache
@@ -59,16 +65,16 @@ class CahceCurrentUserPage(BaseStorage):
         Check on exists page in cache for the user
         """
         result: int = self.storage.exists(self.__cache_key)
-        if result == 0:
+        if int(result) == 0:
             return False
         return True
 
-    def update_page(self, amount=0):
+    def update_page(self, amount=0, decrease=True):
         """
         Update key on amount value
         If key not exists - creating the key
         """
-        if amount < 0:
-            self.storage.decr(self.__cache_key, amount)
+        if not decrease:
+            self.storage.decr(self.__cache_key, int(amount))
         else:
-            self.storage.incr(self.__cache_key, amount)
+            self.storage.incr(self.__cache_key, int(amount))
