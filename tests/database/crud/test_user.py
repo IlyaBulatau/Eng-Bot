@@ -1,20 +1,19 @@
 from pymongo.collection import Collection
 
 from engbot.models.users import User
+from engbot.models.users import UserField
 from engbot.database.main_database.repositories.users import (
     CreateUser,
     DetailUser,
-    ListUser,
-    UpdateUser,
 )
 
 
 class TestCreate:
     def test_create_user_positive(self, database: Collection, test_user_data: dict):
         user = User(
-            telegram_id=test_user_data.get("telegram_id"),
-            username=test_user_data.get("username"),
-            language_code=test_user_data.get("language_code"),
+            telegram_id=test_user_data.get(UserField.TELEGRAM_ID.value),
+            username=test_user_data.get(UserField.USERNAME.value),
+            language_code=test_user_data.get(UserField.LANGUAGE_CODE.value),
         )
 
         user = CreateUser(user_model=user)
@@ -30,6 +29,6 @@ class TestDetail:
 
         assert type(user) == User
 
-        assert user.telegram_id == test_user_data.get("telegram_id")
-        assert user.username == test_user_data.get("username")
-        assert user.language_code == test_user_data.get("language_code")
+        assert user.telegram_id == test_user_data.get(UserField.TELEGRAM_ID.value)
+        assert user.username == test_user_data.get(UserField.USERNAME.value)
+        assert user.language_code == test_user_data.get(UserField.LANGUAGE_CODE.value)

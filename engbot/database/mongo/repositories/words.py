@@ -58,16 +58,18 @@ def get_all_words_of_user(
         WordList(
             created_on=reform_from_string_to_string_of_date(date),
             words=[
-                Word( # create words objects
+                Word(  # create words objects
                     eng_word=translate_dict.get(WordField.ENG_WORD.value),
                     translate=translate_dict.get(WordField.TRANSlATE.value),
                 )
-                for translate_dict in dict_word # getting every set of words by 'this' date
+                for translate_dict in dict_word  # getting every set of words by 'this' date
             ],
         )
-        for dates in list_words_in_date[::-1] # get WordListField.CREATED_ON.value in reverse list
-        for dict_date_in_word in dates.values() # getting dict with date - key and set of wod - value 
-        for date, dict_word in dict_date_in_word.items() # this key valye
+        for dates in list_words_in_date[
+            ::-1
+        ]  # get WordListField.CREATED_ON.value in reverse list
+        for dict_date_in_word in dates.values()  # getting dict with date - key and set of wod - value
+        for date, dict_word in dict_date_in_word.items()  # this key valye
     ]
 
     return words
