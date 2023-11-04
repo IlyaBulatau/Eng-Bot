@@ -135,6 +135,8 @@ def count_words_of_day_in_array(
     ]
 
     data_from_mongo = collection.aggregate(pipline)
-    dict_result: dict = [dicts for dicts in data_from_mongo][0]
-    count: str | None = dict_result.get(UserField.WORDS.value, None)
-    return int(count) if count else None
+    # get result
+    list_of_result: list = [dicts for dicts in data_from_mongo]
+    result: dict | None = list_of_result[0] if list_of_result else None
+
+    return int(result.get(UserField.WORDS.value, None)) if result else None
