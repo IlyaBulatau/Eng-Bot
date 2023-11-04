@@ -1,0 +1,40 @@
+version: '3.7'
+services:
+
+  cache:
+    image: redis:alpine
+    restart: always
+    ports:
+      - "${REDIS_PORT}:6379"
+    command: redis-server
+    container_name: cache
+    volumes:
+      - cache_data:/data
+
+  db:
+    image: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
+    container_name: db
+    volumes:
+      - db_data:/data/db
+  
+  bot:
+    build:
+      context: .
+      dockerfile: bot.Dockerfile
+    container_name: bot
+    volumes:
+      - ./engbot:/code/bot/engbot
+    depends_on: 
+    - cache
+    - db
+
+
+volumes:
+  cache_data:
+  db_data:
