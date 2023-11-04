@@ -55,6 +55,13 @@ async def command_words(update: Update, context: ContextTypes.DEFAULT_TYPE):
     get_words = ListWord(telegram_id=user_telegram_id)
     words: list[WordList] = get_words()
 
+    if not words:
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text="У вас нету записанных слов\n\nВы можете сохранить новое слово использую команду /new",
+        )
+        return
+
     date_created_words: str = words[0].created_on
     markup = keyboard_of_words(words_list=words)
 
