@@ -8,10 +8,12 @@ from enum import Enum
 
 DEBUG = "DEBUG"
 
+
 class EnvFile(Enum):
     """
     Set of env files
     """
+
     DEV = ".env"
     TEST = ".env.test"
     PROD = ".env.prod"
@@ -32,16 +34,16 @@ class RunManager:
         if DEBUG == False - .env.prod
         Return path to env file
         """
-        debug = os.getenv(DEBUG, 0)
-        
-        if int(debug) == 0:    
+        debug = os.getenv(DEBUG, 1)
+
+        if isinstance(debug, str) and int(debug) == 0:
             self.env_file = EnvFile.PROD.value
         else:
             runner = sys.argv[0].split("/")[-1].strip()
             if runner == "pytest":
                 # if run pytest .
                 self.env_file = EnvFile.TEST.value
-        
+
         path_to_env = Path().parent.joinpath(self.env_file)
         return path_to_env
 
