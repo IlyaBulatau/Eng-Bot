@@ -11,15 +11,26 @@ from engbot.database.main_database.repositories.words import CreateWord
 from engbot.services.cache.states import State
 from engbot.models.words import WordField
 from engbot.utils.set_command import CommandEnum
+from engbot.services.limiters import WordLimiter
 
 
 async def command_new_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """
     Starting of saving new word
     Asking write new word
-    """
 
-    await context.bot.send_message(
+    Tracking limiting quantity words in day
+    """
+    answer = context.bot.send_message
+
+    limiter = WordLimiter()
+    if not limiter.is_acceptable(telegram_id=update.effective_user.id):
+        await answer(
+            chat_id=update.effective_chat.id,
+            text="Извините на сегодня вы записали максимальное количество слов",
+        )
+        return
+    await answer(
         chat_id=update.effective_chat.id,
         text="""
 Введие слово или выражение на английском которое хотите сохранить и для которого далее напишите перевод\n\n
