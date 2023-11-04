@@ -21,6 +21,6 @@ class WordLimiter:
         quantity: int = count_words_of_day_in_array(
             collection=self.__connection_to_db, telegram_id=telegram_id
         )
-        if quantity and quantity == self.QUANTITY_IN_DAY:
+        if quantity and quantity >= self.QUANTITY_IN_DAY:
             return False
         return True
