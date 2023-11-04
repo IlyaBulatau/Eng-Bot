@@ -2,6 +2,7 @@ from telegram.ext import ContextTypes
 from telegram import Update, CallbackQuery
 
 from engbot.services.cache.states import CahceCurrentUserPage
+from engbot.handlers.utils import TEXT_FOR_WORDS_SHOW
 from engbot.utils.keyboards import keyboard_of_words
 from engbot.database.main_database.repositories.words import ListWord
 from engbot.models.words import WordList
@@ -43,7 +44,7 @@ async def callback_arrows(update: Update, context: ContextTypes.DEFAULT_TYPE):
     markup = keyboard_of_words(words_list=words, offset=current_page)
 
     await callback.edit_message_text(
-        text=f"Дата добавления: {date_created_words}", reply_markup=markup
+        text=TEXT_FOR_WORDS_SHOW.format(date=date_created_words), reply_markup=markup
     )
 
 
@@ -71,5 +72,5 @@ async def callback_language_buttom(update: Update, context: ContextTypes.DEFAULT
     )
 
     await callback.edit_message_text(
-        text=f"Дата добавления: {date_created_words}", reply_markup=markup
+        text=TEXT_FOR_WORDS_SHOW.format(date=date_created_words), reply_markup=markup
     )

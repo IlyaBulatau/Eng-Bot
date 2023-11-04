@@ -4,7 +4,7 @@ from telegram import Update
 from random import choice
 
 from engbot.utils.keyboards import keyboard_of_words
-from engbot.handlers.commands.utils import TEXT_FOR_START_COMMAND
+from engbot.handlers.utils import TEXT_FOR_START_COMMAND, TEXT_FOR_WORDS_SHOW
 from engbot.database.main_database.repositories.users import CreateUser
 from engbot.database.main_database.repositories.words import ListWord
 from engbot.models.users import User
@@ -58,7 +58,7 @@ async def command_words(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not words:
         await context.bot.send_message(
             chat_id=update.effective_chat.id,
-            text="У вас нету записанных слов\n\nВы можете сохранить новое слово использую команду /new",
+            text="🇬🇧 У вас нету записанных слов\n\n💡 Вы можете сохранить новое слово использую команду /new",
         )
         return
 
@@ -67,7 +67,7 @@ async def command_words(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     await context.bot.send_message(
         chat_id=update.effective_chat.id,
-        text=f"Дата добавления: {date_created_words}",
+        text=TEXT_FOR_WORDS_SHOW.format(date=date_created_words),
         reply_markup=markup,
     )
 
@@ -77,5 +77,5 @@ async def command_cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
     Sends message about that not exists at the time work processes
     """
     await context.bot.send_message(
-        chat_id=update.effective_chat.id, text="Рабочих процессов нету"
+        chat_id=update.effective_chat.id, text="⚙️ Рабочих процессов нету"
     )

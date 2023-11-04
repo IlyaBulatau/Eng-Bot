@@ -25,18 +25,19 @@ def test_data_for_limiter(test_user_data: dict) -> list[dict]:
 
 
 class TestLimiter:
-
-    def test_limiter_process(self, test_data_for_limiter: list[dict], test_user_data: dict):
+    def test_limiter_process(
+        self, test_data_for_limiter: list[dict], test_user_data: dict
+    ):
         telegram_id = test_user_data.get(UserField.TELEGRAM_ID.value)
         between = 2
-        #filling database with datas    
+        # filling database with datas
         for data in test_data_for_limiter[:between]:
             CreateWord(telegram_id, **data)
 
         limiter = WordLimiter()
-    
+
         assert limiter.is_acceptable(telegram_id) == True
-        
+
         for data in test_data_for_limiter[between:]:
             CreateWord(telegram_id, **data)
 
