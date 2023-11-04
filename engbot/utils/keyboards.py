@@ -42,15 +42,16 @@ def keyboard_of_words(
         for word_object in words_list[offset].words
     ][:limit]
 
-    arrows_bar = create_low_arrows_bar_to_keyboards(language_type=language_type)
-    if offset == count_date_of_words:
-        arrows_bar = create_low_arrows_bar_to_keyboards(
-            right_arraow=False, language_type=language_type
-        )
-    if offset == 0:
-        arrows_bar = create_low_arrows_bar_to_keyboards(
-            left_arrows=False, language_type=language_type
-        )
+    arrows_bar = create_low_arrows_bar_to_keyboards(
+        left_arrows=not (
+            (offset == 0) or (offset == 0 and offset == count_date_of_words)
+        ),
+        right_arraow=not (
+            (offset == count_date_of_words)
+            or (offset == 0 and offset == count_date_of_words)
+        ),
+        language_type=language_type,
+    )
 
     markup.extend(arrows_bar)
 
