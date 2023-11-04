@@ -59,6 +59,9 @@ def get_all_words_of_user(
         dict[str, dict[str, list[dict[str, str]]]]
     ] = user_dict.get(UserField.WORDS.value)
 
+    if not user_dict.get(UserField.WORDS.value):
+        return None
+
     words: list[WordList] = [
         WordList(
             created_on=reform_from_string_to_string_of_date(date),
