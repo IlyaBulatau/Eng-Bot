@@ -1,8 +1,6 @@
 from pymongo.collection import Collection
 from engbot.models.users import User, UserField
-
-
-MONGO_ID_FIELD = "_id"
+from engbot.database.mongo.mongodb import MONGO_ID_FIELD
 
 
 def get_user_by_argument(collection: Collection, **kwargs) -> dict:

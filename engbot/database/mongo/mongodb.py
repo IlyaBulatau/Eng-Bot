@@ -6,6 +6,9 @@ from pymongo.collection import Collection
 from pymongo.database import Database as DB
 
 
+MONGO_ID_FIELD = "_id"
+
+
 class MongoDB(BaseDatabase):
     def __init__(self):
         super().__init__()
