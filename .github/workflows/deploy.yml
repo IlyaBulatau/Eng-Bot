@@ -2,7 +2,7 @@ name: Deploy Bot
 env:
   ENV_FILE: ".env.prod"
   REPO: "https://github.com/IlyaBulatau/Eng-Bot.git"
-  WORK_DIR: /home/Eng-bot
+  WORK_DIR: /home/code
   
 
 on:
@@ -19,16 +19,15 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v2
         
-      - name: Clone repositoy
+      - name: Pull updates
         uses: garygrossgarten/github-action-ssh@release
         with:
           host: ${{ secrets.IP_SERVER }}
           username: ${{ secrets.LOGIN_SERVER }}
           password: ${{ secrets.PASSWORD_SERVER }}
           command: |
-              cd ..
-              cd home/
-              git clone ${{ env.REPO }}
+              cd ${{ env.WORK_DIR }}
+              git pull origin main
               
 
       - name: Create env file
