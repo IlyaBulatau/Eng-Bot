@@ -33,8 +33,8 @@ async def command_new_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await answer(
         chat_id=update.effective_chat.id,
         text="""
-🚀 Введие слово или выражение на английском\nкоторое хотите сохранить и для которого далее напишите перевод\n\n
-🇬🇧 Слово/выражение должно содержать только английские буквы и знаки пробела
+🚀 Введие слово или выражение на английском\nкоторое хотите сохранить и для которого далее напишите перевод.\n\n
+🇬🇧 Слово/выражение должно содержать только английские буквы и знаки пробела.
         """,
     )
 
@@ -54,8 +54,8 @@ async def receive_eng_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await context.bot.send_message(
         chat_id=update.effective_chat.id,
         text=f"""
-👍 Отлично!\n\n🇷🇺 Теперь введите перевод на русском для слова {word}\n\n\
-❗ Перевод должен содержать только русские буквы и знаки пробела
+👍 Отлично!\n\n🇷🇺 Теперь введите перевод на русском для слова - {word.capitalize()}.\n\n\
+❗ Перевод должен содержать только русские буквы и знаки пробела.
 """,
     )
 
@@ -66,7 +66,7 @@ async def incorrectly_eng_word(update: Update, context: ContextTypes.DEFAULT_TYP
     await context.bot.send_message(
         chat_id=update.effective_chat.id,
         text="""
-⚠️ Ввод не корректный, попробуйте еще раз\n\n
+⚠️ Ввод не корректный, попробуйте еще раз.\n\n
 🔴 Для завершения процесса /cancel
 """,
     )
@@ -105,7 +105,7 @@ async def command_cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     await context.bot.send_message(
         chat_id=update.effective_chat.id,
-        text=f"❌ Процесс прерван",
+        text=f"❌ Процесс прерван.",
     )
 
     return ConversationHandler.END
@@ -131,7 +131,7 @@ HANDLER_CREATE_NEW_WORD = ConversationHandler(
             MessageHandler(
                 filters=filters.TEXT
                 & ~filters.COMMAND
-                & filters.Regex(r"^[А-Яа-я\s]+$"),
+                & filters.Regex(r"^[ёЁА-Яа-я\s]+$"),
                 callback=receive_translate,
             ),
             MessageHandler(

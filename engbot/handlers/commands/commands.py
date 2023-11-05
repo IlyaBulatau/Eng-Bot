@@ -58,7 +58,7 @@ async def command_words(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not words:
         await context.bot.send_message(
             chat_id=update.effective_chat.id,
-            text="🇬🇧 У вас нету записанных слов\n\n💡 Вы можете сохранить новое слово использую команду /new",
+            text="🇬🇧 У вас нету записанных слов.\n\n💡 Вы можете сохранить новое слово использую команду /new",
         )
         return
 
@@ -77,5 +77,5 @@ async def command_cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
     Sends message about that not exists at the time work processes
     """
     await context.bot.send_message(
-        chat_id=update.effective_chat.id, text="⚙️ Рабочих процессов нету"
+        chat_id=update.effective_chat.id, text="⚙️ Рабочих процессов нету."
     )
