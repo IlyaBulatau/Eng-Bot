@@ -2,6 +2,7 @@ name: Deploy Bot
 env:
   ENV_FILE: ".env.prod"
   REPO: "https://github.com/IlyaBulatau/Eng-Bot.git"
+  WORK_DIR: code
 
 on:
   workflow_run:
@@ -26,6 +27,15 @@ jobs:
           command: |
               cd ..
               cd home/
-              mkdir -p code
-              cd code/
               git clone ${{ env.REPO }}
+              mv Eng-Bot code
+
+      - name: Check
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          host: ${{ secrets.IP_SERVER }}
+          username: ${{ secrets.LOGIN_SERVER }}
+          password: ${{ secrets.PASSWORD_SERVER }}
+          command: |
+              ls
+        
