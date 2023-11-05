@@ -2,7 +2,7 @@ name: Deploy Bot
 env:
   ENV_FILE: ".env.prod"
   REPO: "https://github.com/IlyaBulatau/Eng-Bot.git"
-  WORK_DIR: /home/code
+  WORK_DIR: /home/Eng-bot
   
 
 on:
@@ -28,9 +28,7 @@ jobs:
           command: |
               cd ..
               cd home/
-              mkdir -p code/
-              cd code
-              git clone ${{ env.REPO }} .
+              git clone ${{ env.REPO }}
               
 
       - name: Create env file
