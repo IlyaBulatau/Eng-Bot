@@ -24,7 +24,6 @@ jobs:
           host: ${{ secrets.IP_SERVER }}
           username: ${{ secrets.LOGIN_SERVER }}
           password: ${{ secrets.PASSWORD_SERVER }}
-          privateKey: ${{ secrets.SSH_KEY }}
     
       - name: Clone repo
         run: |
