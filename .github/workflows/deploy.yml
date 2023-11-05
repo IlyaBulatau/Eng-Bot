@@ -2,7 +2,8 @@ name: Deploy Bot
 env:
   ENV_FILE: ".env.prod"
   REPO: "https://github.com/IlyaBulatau/Eng-Bot.git"
-  WORK_DIR: code
+  WORK_DIR: /home/code
+  
 
 on:
   workflow_run:
@@ -30,12 +31,32 @@ jobs:
               git clone ${{ env.REPO }}
               mv Eng-Bot code
 
-      - name: Check
+      - name: Create env file
         uses: garygrossgarten/github-action-ssh@release
         with:
           host: ${{ secrets.IP_SERVER }}
           username: ${{ secrets.LOGIN_SERVER }}
           password: ${{ secrets.PASSWORD_SERVER }}
           command: |
-              ls
-        
+              cd ${{ env.WORK_DIR }}
+              export DEBUG=0
+              touch ${{ env.ENV_FILE }}
+              echo BOT_TOKEN=${{ secrets.BOT_TOKEN_PROD }} >> ${{ env.ENV_FILE }}
+              echo DATABASE_URL=${{ secrets.DATABASE_URL_PROD }} >> ${{ env.ENV_FILE }}
+              echo MONGO_DB_NAME=${{ secrets.MONGO_DB_NAME }} >> ${{ env.ENV_FILE }}
+              echo MONGO_COLLECTION_NAME=${{ secrets.MONGO_COLLECTION_NAME }} >> ${{ env.ENV_FILE }}
+              echo MONGO_USERNAME=${{ secrets.MONGO_USERNAME }} >> ${{ env.ENV_FILE }}
+              echo MONGO_PASSWORD=${{ secrets.MONGO_PASSWORD }} >> ${{ env.ENV_FILE }}
+              echo REDIS_HOST=${{ secrets.REDIS_HOST }} >> ${{ env.ENV_FILE }}
+              echo REDIS_PORT=${{ secrets.REDIS_PORT }} >> ${{ env.ENV_FILE }}
+
+      - name: Restart docker container
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          host: ${{ secrets.IP_SERVER }}
+          username: ${{ secrets.LOGIN_SERVER }}
+          password: ${{ secrets.PASSWORD_SERVER }}
+          command: |
+              docker stop $(docker ps -q)
+              docker rm $(docker ps -a -q)
+              docker compose -f docker-compose.prod.yaml up
