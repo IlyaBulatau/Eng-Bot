@@ -59,6 +59,5 @@ jobs:
           username: ${{ secrets.LOGIN_SERVER }}
           password: ${{ secrets.PASSWORD_SERVER }}
           command: |
-              docker stop $(docker ps -q) || echo "containers are stop"
-              docker rm $(docker ps -a -q) || echo "container are delete"
               docker compose -f docker-compose.prod.yaml up
+              docker restart $(docker ps -q -a)
