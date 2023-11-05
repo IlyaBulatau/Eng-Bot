@@ -18,11 +18,14 @@ jobs:
         uses: actions/checkout@v2
         
       - name: Connect to server
-        run: |
-            install -m 600 -D /dev/null ~/.ssh/id_rsa
-            echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
-            ssh-keyscan -H ${{ secrets.IP_SERVER }} > ~/.ssh/known_hosts
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.IDPSERVER }}
+          username: ${{ secrets.LOGIN_SERVER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+              ls
+              echo "Mock"
       - name: Clone repo
         run: |
-            ls
             echo "Mock"
