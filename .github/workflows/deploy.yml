@@ -24,7 +24,7 @@ jobs:
           username: ${{ secrets.LOGIN_SERVER }}
           password: ${{ secrets.PASSWORD_SERVER }}
           scripts: |
-              echo "OK"
+              ls
       - name: Clone repo
         run: |
-            ls
+            echo "Mock"
