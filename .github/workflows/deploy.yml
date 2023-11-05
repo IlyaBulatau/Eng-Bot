@@ -17,15 +17,15 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v2
         
-      - name: Connect to server
+      - name: Clone repositoy
         uses: garygrossgarten/github-action-ssh@release
         with:
-          command: ls -a
           host: ${{ secrets.IP_SERVER }}
           username: ${{ secrets.LOGIN_SERVER }}
           password: ${{ secrets.PASSWORD_SERVER }}
-    
-      - name: Clone repo
-        run: |
-            echo "OK"
-            ls
+          command: |
+              cd ..
+              cd home/
+              mkdir -p code
+              cd code/
+              git clone ${{ env.REPO }}
