@@ -1,0 +1,26 @@
+name: Deploy Bot
+env:
+  ENV_FILE: ".env.prod"
+  REPO: "https://github.com/IlyaBulatau/Eng-Bot.git"
+
+on:
+  workflow_run:
+    workflows: ["Testing Bot"]
+    branches: ["main"]
+    types: [completed]
+
+jobs: 
+  build_and_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Connect to server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.IP_SERVER }}
+          username: ${{ secrets.LOGIN_SERVER }}
+          password: ${{ secrets.PASSWORD_SERVER }}
+      
+      - name: Healthcheck
+        run: |
+          echo ""OK
