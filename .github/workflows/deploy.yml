@@ -18,14 +18,14 @@ jobs:
         uses: actions/checkout@v2
         
       - name: Connect to server
-        uses: appleboy/ssh-action@master
+        uses: garygrossgarten/github-action-ssh@release
         with:
+          command: ls -a
           host: ${{ secrets.IP_SERVER }}
           username: ${{ secrets.LOGIN_SERVER }}
-          key: ${{ secrets.SSH_KEY }}
-          script: |
-              ls
-              echo "Mock"
+          password: ${{ secrets.PASSWORD_SERVER }}
+          privateKey: ${{ secrets.SSH_KEY }}
+    
       - name: Clone repo
         run: |
             echo "Mock"
