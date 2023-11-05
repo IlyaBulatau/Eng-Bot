@@ -17,14 +17,12 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v2
         
-      - name: executing remote ssh commands using password
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.IP_SERVER }}
-          username: ${{ secrets.LOGIN_SERVER }}
-          password: ${{ secrets.PASSWORD_SERVER }}
-          scripts: |
-              ls
+      - name: Connect to server
+        run: |
+            install -m 600 -D /dev/null ~/.ssh/id_rsa
+            echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
+            ssh-keyscan -H ${{ secrets.IP_SERVER }} > ~/.ssh/known_hosts
       - name: Clone repo
         run: |
+            ls
             echo "Mock"
