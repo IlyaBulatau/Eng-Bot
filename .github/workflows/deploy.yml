@@ -13,7 +13,17 @@ jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
 
-    steps:  
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+        
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@v2
+        with:
+          host: ${{ secrets.IP_SERVER }}
+          username: ${{ secrets.LOGIN_SERVER }}
+          password: ${{ secrets.PASSWORD_SERVER }}
+          
       - name: Healthcheck
         run: |
-          echo ""OK
+          echo "OK"
