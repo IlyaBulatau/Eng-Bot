@@ -4,6 +4,8 @@ services:
   cache:
     image: redis:alpine
     restart: always
+    env_file:
+      - ".env.prod"
     ports:
       - "${REDIS_PORT}:6379"
     command: redis-server
@@ -14,6 +16,8 @@ services:
   db:
     image: mongo
     restart: always
+    env_file:
+      - ".env.prod"
     ports:
       - "27017:27017"
     environment:
@@ -28,6 +32,7 @@ services:
       context: .
       dockerfile: bot.Dockerfile
     container_name: bot
+    restart: always
     volumes:
       - ./engbot:/code/bot/engbot
     depends_on: 
