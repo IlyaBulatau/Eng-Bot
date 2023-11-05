@@ -28,8 +28,10 @@ jobs:
           command: |
               cd ..
               cd home/
-              git clone ${{ env.REPO }}
-              mv Eng-Bot code
+              mkdir -p code/
+              cd code
+              git clone ${{ env.REPO }} .
+              
 
       - name: Create env file
         uses: garygrossgarten/github-action-ssh@release
