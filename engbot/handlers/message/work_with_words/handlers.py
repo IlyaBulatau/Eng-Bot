@@ -74,3 +74,9 @@ async def callback_language_buttom(update: Update, context: ContextTypes.DEFAULT
     await callback.edit_message_text(
         text=TEXT_FOR_WORDS_SHOW.format(date=date_created_words), reply_markup=markup
     )
+
+async def empty_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """
+    Handled callbacks that is empty
+    """
+    await update.callback_query.answer()
