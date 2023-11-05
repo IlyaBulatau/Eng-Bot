@@ -27,7 +27,7 @@ async def command_new_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not limiter.is_acceptable(telegram_id=update.effective_user.id):
         await answer(
             chat_id=update.effective_chat.id,
-            text="📈 Извините на сегодня вы записали максимальное количество слов",
+            text="📈 Извините, на сегодня вы записали максимальное количество слов.",
         )
         return
     await answer(
