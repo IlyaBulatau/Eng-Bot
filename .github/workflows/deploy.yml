@@ -38,6 +38,7 @@ jobs:
           password: ${{ secrets.PASSWORD_SERVER }}
           command: |
               cd ${{ env.WORK_DIR }}
+              [ -e  ${{ env.ENV_FILE }} ] && rm ${{ env.ENV_FILE }}
               touch ${{ env.ENV_FILE }}
               echo BOT_TOKEN=${{ secrets.BOT_TOKEN_PROD }} >> ${{ env.ENV_FILE }}
               echo DATABASE_URL=${{ secrets.DATABASE_URL_PROD }} >> ${{ env.ENV_FILE }}
