@@ -28,7 +28,4 @@ jobs:
       - name: Clone repo
         run: |
             cd ..
-            cd home/
-            mkdir -s code
-            cd code/
-            git clone ${{ env.REPO }}
+            ls
