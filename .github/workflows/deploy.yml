@@ -13,14 +13,7 @@ jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Connect to server
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.IP_SERVER }}
-          username: ${{ secrets.LOGIN_SERVER }}
-          password: ${{ secrets.PASSWORD_SERVER }}
-      
+    steps:  
       - name: Healthcheck
         run: |
           echo ""OK
