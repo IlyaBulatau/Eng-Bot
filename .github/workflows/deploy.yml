@@ -58,5 +58,5 @@ jobs:
           password: ${{ secrets.PASSWORD_SERVER }}
           command: |
               cd ${{ env.WORK_DIR }}
-              docker compose -f docker-compose.prod.yaml up -d
+              docker compose -f docker-compose.prod.yaml --env-file ${{ env.ENV_FILE }} up -d
               docker restart $(docker ps -q -a)
