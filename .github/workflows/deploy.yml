@@ -38,7 +38,6 @@ jobs:
           password: ${{ secrets.PASSWORD_SERVER }}
           command: |
               cd ${{ env.WORK_DIR }}
-              export DEBUG=0
               touch ${{ env.ENV_FILE }}
               echo BOT_TOKEN=${{ secrets.BOT_TOKEN_PROD }} >> ${{ env.ENV_FILE }}
               echo DATABASE_URL=${{ secrets.DATABASE_URL_PROD }} >> ${{ env.ENV_FILE }}
@@ -57,5 +56,6 @@ jobs:
           password: ${{ secrets.PASSWORD_SERVER }}
           command: |
               cd ${{ env.WORK_DIR }}
+              export DEBUG=0
               docker compose -f docker-compose.prod.yaml up -d
               docker restart $(docker ps -q -a)
