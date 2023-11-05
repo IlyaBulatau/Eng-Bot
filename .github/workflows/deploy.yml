@@ -27,5 +27,4 @@ jobs:
               echo "OK"
       - name: Clone repo
         run: |
-            cd ..
             ls
