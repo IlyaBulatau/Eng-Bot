@@ -20,7 +20,7 @@ jobs:
       - name: Connect to server
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.IDPSERVER }}
+          host: ${{ secrets.IP_SERVER }}
           username: ${{ secrets.LOGIN_SERVER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
