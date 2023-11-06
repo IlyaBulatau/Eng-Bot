@@ -6,6 +6,7 @@ from engbot.handlers.utils import TEXT_FOR_WORDS_SHOW
 from engbot.utils.keyboards import keyboard_of_words
 from engbot.database.main_database.repositories.words import ListWord
 from engbot.models.words import WordList
+from engbot.services.decorators.controller import controller
 from engbot.utils.callback_datas import (
     LEFT_BUTTON,
     RIGHT_BUTTON,
@@ -14,6 +15,7 @@ from engbot.utils.callback_datas import (
 )
 
 
+@controller
 async def callback_arrows(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """
     Reacts on touch arrows buttom
@@ -48,6 +50,7 @@ async def callback_arrows(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 
+@controller
 async def callback_language_buttom(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # callback datas
     callback: CallbackQuery = update.callback_query
@@ -81,3 +84,11 @@ async def empty_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     Handled callbacks that is empty
     """
     await update.callback_query.answer()
+
+
+@controller
+async def echo_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """
+    Handled callbacks that is empty
+    """
+    ...
