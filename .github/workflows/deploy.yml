@@ -24,7 +24,7 @@ jobs:
         with:
           host: ${{ secrets.IP_SERVER }}
           username: ${{ secrets.LOGIN_SERVER }}
-          password: ${{ secrets.PASSWORD_SERVER }}
+          privateKey: ${{ secrets.SSH_KEY }}
           command: |
               cd ${{ env.WORK_DIR }}
               git pull origin main
@@ -35,11 +35,10 @@ jobs:
         with:
           host: ${{ secrets.IP_SERVER }}
           username: ${{ secrets.LOGIN_SERVER }}
-          password: ${{ secrets.PASSWORD_SERVER }}
+          privateKey: ${{ secrets.SSH_KEY }}
           command: |
               cd ${{ env.WORK_DIR }}
               [ -e  ${{ env.ENV_FILE }} ] && rm ${{ env.ENV_FILE }}
-              [ -e  .env.example ] && rm .env.example
               touch ${{ env.ENV_FILE }}
               echo BOT_TOKEN=${{ secrets.BOT_TOKEN_PROD }} >> ${{ env.ENV_FILE }}
               echo DATABASE_URL=${{ secrets.DATABASE_URL_PROD }} >> ${{ env.ENV_FILE }}
@@ -55,7 +54,7 @@ jobs:
         with:
           host: ${{ secrets.IP_SERVER }}
           username: ${{ secrets.LOGIN_SERVER }}
-          password: ${{ secrets.PASSWORD_SERVER }}
+          privateKey: ${{ secrets.SSH_KEY }}
           command: |
               cd ${{ env.WORK_DIR }}
               docker compose -f docker-compose.prod.yaml --env-file ${{ env.ENV_FILE }} up -d
