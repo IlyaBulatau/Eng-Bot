@@ -3,7 +3,7 @@ import pytest
 from engbot.models.words import WordField
 from engbot.models.users import UserField
 from engbot.database.main_database.repositories.words import CreateWord
-from engbot.services.limiters import WordLimiter
+from engbot.services.controllers.limiters import WordLimiter
 
 
 @pytest.fixture(scope="module")

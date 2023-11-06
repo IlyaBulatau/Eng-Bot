@@ -11,9 +11,11 @@ from engbot.database.main_database.repositories.words import CreateWord
 from engbot.services.cache.states import State
 from engbot.models.words import WordField
 from engbot.utils.set_command import CommandEnum
-from engbot.services.limiters import WordLimiter
+from engbot.services.controllers.limiters import WordLimiter
+from engbot.services.decorators.controller import controller
 
 
+@controller
 async def command_new_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """
     Starting of saving new word
@@ -41,6 +43,7 @@ async def command_new_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
     return WordField.ENG_WORD.value
 
 
+@controller
 async def receive_eng_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """
     Receiving new word and save them
@@ -62,6 +65,7 @@ async def receive_eng_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
     return WordField.TRANSlATE.value
 
 
+@controller
 async def incorrectly_eng_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await context.bot.send_message(
         chat_id=update.effective_chat.id,
@@ -79,6 +83,7 @@ async def incorrectly_eng_word(update: Update, context: ContextTypes.DEFAULT_TYP
     return WordField.TRANSlATE.value
 
 
+@controller
 async def receive_translate(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """
     Receiving translate the word
@@ -99,6 +104,7 @@ async def receive_translate(update: Update, context: ContextTypes.DEFAULT_TYPE):
     return ConversationHandler.END
 
 
+@controller
 async def command_cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
     state = State(update)
     state.clear_data()

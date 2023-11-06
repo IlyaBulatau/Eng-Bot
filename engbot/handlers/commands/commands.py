@@ -10,8 +10,10 @@ from engbot.database.main_database.repositories.words import ListWord
 from engbot.models.users import User
 from engbot.models.words import WordList
 from engbot.services.cache.states import CahceCurrentUserPage
+from engbot.services.decorators.controller import controller
 
 
+@controller
 async def command_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """
     Reacts on 'start' command
@@ -35,6 +37,7 @@ async def command_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 
+@controller
 async def command_words(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """
     Reacts on 'words' command
@@ -72,6 +75,7 @@ async def command_words(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 
+@controller
 async def command_cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """
     Sends message about that not exists at the time work processes
