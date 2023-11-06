@@ -1,4 +1,3 @@
-from engbot.config import Config
 from engbot.services.cache.states import CacheBotGroup
 
 from telegram.ext import ExtBot
@@ -16,7 +15,11 @@ class ChatController:
         self.bot: ExtBot = bot
         self.user_id: str = str(self.update.effective_user.id)
 
-    async def control(self):
+    async def control(self) -> list[tuple[str]]:
+        """
+        if user is not member group
+        return list of (title, link) there groups
+        """
         # getting all groups of the bot from cache
         cache = CacheBotGroup(self.update)
         groups: list[str] | list = cache.get_groups()
@@ -28,6 +31,6 @@ class ChatController:
             )
             if event.status not in (CS.ADMINISTRATOR, CS.MEMBER, CS.OWNER):
                 chat: Chat = await self.bot.get_chat(chat_id=group_id)
-                result.append(chat.invite_link)
+                result.append((chat.title, chat.invite_link))
 
         return result
