@@ -22,7 +22,7 @@ async def command_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     CreateUser(
         user_model=User(
             telegram_id=user.id,
-            username=user.username,
+            username=user.username if user.username else user.first_name,
             language_code=user.language_code,
         )
     )
