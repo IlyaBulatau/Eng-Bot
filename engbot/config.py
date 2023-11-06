@@ -57,10 +57,10 @@ class Config:
     manager = RunManager()
     env.read_env(path=manager.get_env())
 
-    BOT_TOKEN = env("BOT_TOKEN")
-    DATABASE_URL = env("DATABASE_URL")
-    MONGO_DB_NAME = env("MONGO_DB_NAME")
-    MONGO_COLLECTION_NAME = env("MONGO_COLLECTION_NAME")
+    BOT_TOKEN: str = env("BOT_TOKEN")
+    DATABASE_URL: str = env("DATABASE_URL")
+    MONGO_DB_NAME: str = env("MONGO_DB_NAME")
+    MONGO_COLLECTION_NAME: str = env("MONGO_COLLECTION_NAME")
 
-    REDIS_HOST = env("REDIS_HOST")
-    REDIS_PORT = env("REDIS_PORT")
+    REDIS_HOST: str = env("REDIS_HOST")
+    REDIS_PORT: str | int = env("REDIS_PORT")
