@@ -75,6 +75,7 @@ async def callback_language_buttom(update: Update, context: ContextTypes.DEFAULT
         text=TEXT_FOR_WORDS_SHOW.format(date=date_created_words), reply_markup=markup
     )
 
+
 async def empty_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """
     Handled callbacks that is empty

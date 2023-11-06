@@ -20,8 +20,4 @@ def setup_handlers(application: Application):
             pattern=accept_callback_language_type,
         )
     )
-    application.add_handler(
-        CallbackQueryHandler(
-            callback=handlers.empty_callback
-        )
-    )
+    application.add_handler(CallbackQueryHandler(callback=handlers.empty_callback))
