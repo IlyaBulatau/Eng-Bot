@@ -35,7 +35,3 @@ async def track_chats_memer(update: Update, context: ContextTypes.DEFAULT_TYPE):
     Trcking adding and lick or leaving user from group where the bot is an admin
     """
     ...
-
-
-
-    

@@ -7,6 +7,7 @@ class State(BaseStorage):
     """
     Stores and clears current user data, e.g. conversation with bot
     """
+
     CACHE_PREFIX = "state_create_word"
 
     def __init__(self, update: Update):
@@ -44,6 +45,7 @@ class CahceCurrentUserPage(BaseStorage):
     """
     Tracking current page of user
     """
+
     CACHE_PREFIX = "cache_current_page"
 
     def __init__(self, user_telegram_id: int | str):
@@ -100,6 +102,7 @@ class CacheBotGroup(BaseStorage):
     """
     Keeps track of which groups the bot is in
     """
+
     CACHE_PREFIX = "list_bot_groups"
 
     def __init__(self, update: Update):

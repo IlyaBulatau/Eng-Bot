@@ -4,7 +4,13 @@ from engbot.handlers.message.work_with_words import handlers
 from engbot.handlers.chats.handlers import track_chats_memer, track_my_member
 from engbot.utils.helpers import accept_callback_arrows, accept_callback_language_type
 
-from telegram.ext import Application, CallbackQueryHandler, ChatMemberHandler
+from telegram.ext import (
+    Application,
+    CallbackQueryHandler,
+    ChatMemberHandler,
+    MessageHandler,
+    filters,
+)
 
 
 def setup_handlers(application: Application):
@@ -32,3 +38,6 @@ def setup_handlers(application: Application):
         )
     )
     application.add_handler(CallbackQueryHandler(callback=handlers.empty_callback))
+    application.add_handler(
+        MessageHandler(filters=filters.ALL, callback=handlers.echo_message)
+    )
