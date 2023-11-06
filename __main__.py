@@ -1,4 +1,5 @@
 from telegram.ext import ApplicationBuilder
+from telegram import Update
 
 import logging
 
@@ -18,4 +19,4 @@ if __name__ == "__main__":
 
     setup_handlers(builder)
 
-    builder.run_polling()
+    builder.run_polling(allowed_updates=Update.ALL_TYPES)
