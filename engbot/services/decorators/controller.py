@@ -17,12 +17,19 @@ def controller(coro: Coroutine):
         bot: ExtBot = update.get_bot()
 
         controller_obj = ChatController(update, bot=bot)
-        result = await controller_obj.control()
+        result: list[tuple[str]] = await controller_obj.control()
 
         if result:
+            # generate answer
+            links = "\n".join(
+                [f'→ <a href="{group[1]}">{group[0]}</a>' for group in result]
+            )
+            print(links)
             # if there is groups that the user is not member
             await bot.send_message(
-                chat_id=update.effective_chat.id, text="Вы не можете юзать бота"
+                chat_id=update.effective_chat.id,
+                text=f"⛔Вы не можете юзать бота пока не вступите в следующие группы:\n{links}",
+                parse_mode="HTML",
             )
             # answer to callback data
             if update.callback_query:
