@@ -4,8 +4,6 @@ services:
   cache:
     image: redis:alpine
     restart: always
-    env_file:
-      - .env.prod
     ports:
       - "${REDIS_PORT}:6379"
     command: redis-server
@@ -16,8 +14,6 @@ services:
   db:
     image: mongo
     restart: always
-    env_file:
-      - .env.prod
     ports:
       - "27017:27017"
     environment:
