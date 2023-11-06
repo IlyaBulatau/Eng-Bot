@@ -11,7 +11,7 @@ from engbot.database.main_database.repositories.words import CreateWord
 from engbot.services.cache.states import State
 from engbot.models.words import WordField
 from engbot.utils.set_command import CommandEnum
-from engbot.services.limiters import WordLimiter
+from engbot.services.controllers.limiters import WordLimiter
 
 
 async def command_new_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
