@@ -4,38 +4,44 @@ from engbot.services.cache.storage import BaseStorage
 
 
 class State(BaseStorage):
+    CACHE_PREFIX = "state_create_word"
+
     def __init__(self, update: Update):
         super().__init__()
 
         if not isinstance(update, Update):
             raise Exception("update object must be Update instance")
         self.update: Update = update
-        self.user_id: str = str(self.update.effective_user.id)
+        self.user_telegram_id: str = str(self.update.effective_user.id)
+        self.__cache_key: str = self.CACHE_PREFIX + self.CACHE_SEP + self.user_telegram_id
+
+    @property
+    def cache_key(self):
+        return self.__cache_key
 
     def set_data(self, **kwargs) -> None:
         """
         Save data in storage
         """
 
-        self.storage.hmset(self.user_id, kwargs)
+        self.storage.hmset(self.__cache_key, kwargs)
 
     def get_data(self) -> dict | None:
-        data = self.storage.hgetall(self.user_id)
+        data = self.storage.hgetall(self.__cache_key)
 
         return data if data else None
 
     def clear_data(self) -> None:
-        self.storage.delete(self.user_id)
+        self.storage.delete(self.__cache_key)
 
 
 class CahceCurrentUserPage(BaseStorage):
     CACHE_PREFIX = "cache_current_page"
-    CACHE_SEP = ":"
 
     def __init__(self, user_telegram_id: int | str):
         super().__init__()
-        self.telegrm_id: str = str(user_telegram_id)
-        self.__cache_key: str = self.CACHE_PREFIX + self.CACHE_SEP + self.telegrm_id
+        self.user_telegram_id = str(user_telegram_id)
+        self.__cache_key: str = self.CACHE_PREFIX + self.CACHE_SEP + self.user_telegram_id
         self.__start_page: int = 0
         self.ttl_sec: int = 2419200  # 1 mounth
 
@@ -78,3 +84,21 @@ class CahceCurrentUserPage(BaseStorage):
             self.storage.decr(self.__cache_key, int(amount))
         else:
             self.storage.incr(self.__cache_key, int(amount))
+
+
+class CacheBotGroup(BaseStorage):
+    CACHE_PREFIX = "list_bot_groups"
+
+    def __init__(self, update: Update):
+        self.update: Update = self.update
+        self.user_telegram_id: str = str(self.update.effective_user.id)
+        self.__cache_key: str = self.CACHE_PREFIX + self.CACHE_SEP + self.user_telegram_id
+
+    def get_groups(self) -> list[str]:
+        ...
+    
+    def set_group(self) -> None:
+        ...
+    
+    def update_groups(self) -> None:
+        ...

@@ -5,5 +5,4 @@ from telegram import ChatMemberUpdated, Update
 
 
 class ChatController:
-
     ...
