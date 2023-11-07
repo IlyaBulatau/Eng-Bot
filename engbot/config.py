@@ -68,3 +68,4 @@ class Config:
     RABBITMQ_USER: str = env("RABBITMQ_USER")
     RABBITMQ_PASSWORD: str = env("RABBITMQ_PASSWORD")
     RABBITMQ_HOST: str = env("RABBITMQ_HOST")
+    RABBITMQ_PORT: str | int = env("RABBITMQ_PORT")

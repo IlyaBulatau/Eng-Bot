@@ -28,7 +28,7 @@ services:
     image: redis:alpine
     container_name: redis
     ports:
-      - "${REDIS_PORT}:6379"
+      - "6380:${REDIS_PORT}"
     command: redis-server
     volumes:
       - redis_data:/data
@@ -40,9 +40,45 @@ services:
       - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
       - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD}
     ports:
-      - "5673:5672"
+      - "5673:${RABBITMQ_PORT}"
       - "15673:15672"
 
+  bot:
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+    container_name: bot
+    entrypoint: python3 __main__.py
+    volumes:
+      - ./engbot:/code/bot/engbot
+    depends_on: 
+    - redis
+    - mongo
+    - rabbitmq
+
+  celery:
+    build:
+      dockerfile: dev.Dockerfile
+      context: .
+    container_name: celery
+    entrypoint: celery -A engbot.tasks.tasks:scheduler worker
+    volumes:
+      - ./engbot:/code/bot/engbot
+    depends_on:
+      - bot
+
+  flower:
+    build:
+      dockerfile: dev.Dockerfile
+      context: .
+    container_name: flower
+    entrypoint: celery -A engbot.tasks.tasks:scheduler flower --port=5555
+    ports:
+      - "5555:5555"
+    volumes:
+      - ./engbot:/code/bot/engbot
+    depends_on:
+      - celery
 
 volumes:
   mongo_data:
