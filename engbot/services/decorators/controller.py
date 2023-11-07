@@ -4,6 +4,7 @@ from typing import Coroutine
 from telegram import Update
 from telegram.ext import ExtBot
 
+from engbot.services.decorators.utils import generate_links
 from engbot.services.controllers.chat_controllers import ChatController
 
 
@@ -17,15 +18,14 @@ def controller(coro: Coroutine):
         bot: ExtBot = update.get_bot()
 
         controller_obj = ChatController(update, bot=bot)
-        result: list[tuple[str]] = await controller_obj.control()
+        groups: list[tuple[str]] = await controller_obj.member_control()
 
-        if result:
-            # generate answer
-            links = "\n".join(
-                [f'→ <a href="{group[1]}">{group[0]}</a>' for group in result]
-            )
-            print(links)
+        if not controller_obj.type_chat_control():
+            return
+
+        if groups:
             # if there is groups that the user is not member
+            links = generate_links(groups)
             await bot.send_message(
                 chat_id=update.effective_chat.id,
                 text=f"⛔Вы не можете юзать бота пока не вступите в следующие группы:\n{links}",
