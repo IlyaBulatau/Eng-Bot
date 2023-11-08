@@ -1,4 +1,3 @@
-from dotmap import DotMap
 from pymongo.collection import Collection
 
 from abc import ABC, abstractmethod
@@ -30,7 +29,7 @@ class DetailBase(BaseCRUD):
         self.telegram_id = telegram_id
 
     @abstractmethod
-    def __call__(self, *args, **kwargs) -> DotMap:
+    def __call__(self, *args, **kwargs):
         ...
 
 
