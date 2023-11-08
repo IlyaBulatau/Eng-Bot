@@ -9,7 +9,7 @@ from engbot.database.main_database.repositories.users import CreateUser
 from engbot.database.main_database.repositories.words import ListWord
 from engbot.models.users import User
 from engbot.models.words import WordList
-from engbot.services.cache.states import CahceCurrentUserPage
+from engbot.services.cache.states import CahceCurrentUserPage, CacheLastWordKeyboard
 from engbot.services.decorators.controller import controller
 
 
@@ -55,6 +55,10 @@ async def command_words(update: Update, context: ContextTypes.DEFAULT_TYPE):
     cache = CahceCurrentUserPage(user_telegram_id=user_telegram_id)
     cache.set_current_page()
 
+    # delete prev keyboard of words
+    cache_kb = CacheLastWordKeyboard(update=update, bot=context.bot)
+    await cache_kb.delete()
+
     get_words = ListWord(telegram_id=user_telegram_id)
     words: list[WordList] = get_words()
 
@@ -68,11 +72,13 @@ async def command_words(update: Update, context: ContextTypes.DEFAULT_TYPE):
     date_created_words: str = words[0].created_on
     markup = keyboard_of_words(words_list=words)
 
-    await context.bot.send_message(
+    message = await context.bot.send_message(
         chat_id=update.effective_chat.id,
         text=TEXT_FOR_WORDS_SHOW.format(date=date_created_words),
         reply_markup=markup,
     )
+    # save the kb of words in cache
+    cache_kb.save(message.id)
 
 
 @controller

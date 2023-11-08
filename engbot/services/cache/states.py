@@ -1,4 +1,5 @@
 from telegram import Update
+from telegram.ext import ExtBot
 
 from engbot.services.cache.storage import BaseStorage
 
@@ -180,3 +181,46 @@ class CacheBotGroup(BaseStorage):
         result: list[str] = [item[1:-1] for item in list_of_str]  # remove quotes
 
         return result
+
+
+class CacheLastWordKeyboard(BaseStorage):
+    """
+    Caching last id of keyboard of words
+
+    If user will usage not current keyboard of words
+    the cache which responsibility for current page not correct work
+
+    Thus this cache object will remove last keyboard of words
+    when new keyboard will creating and will write ID this keyboard in cache
+    """
+
+    CACHE_PREFIX = "last_kb_id"
+
+    def __init__(self, update: Update, bot: ExtBot):
+        super().__init__()
+        self.bot: ExtBot = bot
+        self.user_telegram_id: str = str(update.effective_user.id)
+        self.__cache_key: str = (
+            self.CACHE_PREFIX + self.CACHE_SEP + self.user_telegram_id
+        )
+
+    @property
+    def cache_key(self):
+        return self.__cache_key
+
+    def save(self, kb_id: str | int) -> None:
+        """
+        Set kb ID in cache
+        """
+        self.storage.set(name=self.cache_key, value=str(kb_id))
+
+    async def delete(self) -> None:
+        """
+        Getting last keybord ID
+        And if it exists - delete the keyboard
+        """
+        kb_id: str | None = self.storage.get(name=self.cache_key)
+        if kb_id:
+            await self.bot.delete_message(
+                chat_id=self.user_telegram_id, message_id=str(kb_id)
+            )
