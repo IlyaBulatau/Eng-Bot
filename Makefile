@@ -13,6 +13,9 @@ stop: # stop all containers
 delete: # delete all containers
 	docker rm $$(docker ps -a -q)
 
+bot_log:
+	docker logs bot -f
+
 test: # run tests
 	make $(test_db)
 	pytest . -s -v
