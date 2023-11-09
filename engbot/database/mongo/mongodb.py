@@ -12,13 +12,13 @@ MONGO_ID_FIELD = "_id"
 class MongoDB(BaseDatabase):
     def __init__(self):
         super().__init__()
+        self.__client = MongoClient(self.url)
         self.__DATABASE_NAME = Config.MONGO_DB_NAME
         self.__COLLECTION_NAME = Config.MONGO_COLLECTION_NAME
         self.__collection: Collection = self._connect_to_collection()
 
     def _connect_to_collection(self) -> Collection:
-        client = MongoClient(self.url)
-        database: DB = client[self.__DATABASE_NAME]
+        database: DB = self.__client[self.__DATABASE_NAME]
         collection: Collection = database[self.__COLLECTION_NAME]
 
         return collection
@@ -42,6 +42,10 @@ class MongoDB(BaseDatabase):
         Return connection to mongodb collection
         """
         return self.collection
+
+    @property
+    def client(self):
+        return self.__client
 
     @property
     def collection(self):
