@@ -60,7 +60,7 @@ services:
       context: .
     container_name: worker
     restart: always
-    entrypoint: celery -A engbot.tasks.tasks:scheduler worker
+    entrypoint: bash -c "export DEBUG=0 && celery -A engbot.tasks.tasks:scheduler worker"
     volumes:  
       - ./engbot:/code/bot/engbot
     depends_on:
