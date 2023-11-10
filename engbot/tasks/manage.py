@@ -3,6 +3,9 @@ from random import choice
 
 from engbot.tasks import constants as con
 from engbot.tasks import tasks
+from engbot.services.cache.states import CacheTaskId
+
+from celery.result import AsyncResult
 
 
 class TaskManager:
@@ -23,9 +26,17 @@ class TaskManager:
         self.evening_notice_time = timedelta(hours=con.EVENING_TIME[0])
 
     def notice_about_learn(self):
-        tasks.notice_user_about_learn.apply_async(
-            (self.user_telegram_id,), eta=self._eta_calculate()
+        cache = CacheTaskId(self.task_name)
+        old_task_id = cache.get_task()
+
+        if old_task_id:
+            AsyncResult(id=old_task_id).revoke()
+
+        result: AsyncResult = tasks.notice_user_about_learn.apply_async(
+            (self.user_telegram_id,), eta=self._eta_calculate(), shadow=self.task_name
         )
+
+        cache.set_task(result.id)
 
     def _eta_calculate(self) -> datetime:
         """
