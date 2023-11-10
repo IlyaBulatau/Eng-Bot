@@ -1,5 +1,6 @@
 from telegram import Update
 from telegram.ext import ExtBot
+from telegram.error import BadRequest
 
 from engbot.services.cache.storage import BaseStorage
 
@@ -183,6 +184,10 @@ class CacheLastWordKeyboard(BaseStorage):
         """
         kb_id: str | None = self.storage.get(name=self.cache_key)
         if kb_id:
-            await self.bot.delete_message(
-                chat_id=self.user_telegram_id, message_id=str(kb_id)
-            )
+            try:
+                await self.bot.delete_message(
+                    chat_id=self.user_telegram_id, message_id=str(kb_id)
+                )
+            except BadRequest as e:
+                # add logging
+                ...
