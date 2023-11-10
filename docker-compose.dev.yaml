@@ -42,6 +42,8 @@ services:
     ports:
       - "5673:${RABBITMQ_PORT}"
       - "15673:15672"
+    volumes:
+      - rabbit_data:/data
     healthcheck:
       test: rabbitmq-diagnostics -q ping
       interval: 10s
@@ -91,8 +93,8 @@ services:
         condition: service_started
       rabbitmq:
         condition: service_healthy
-      
 
 volumes:
   mongo_data:
-  redis_data:    
+  redis_data:
+  rabbit_data:

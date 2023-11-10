@@ -22,7 +22,24 @@ services:
     container_name: db
     volumes:
       - db_data:/data/db
-  
+
+  broker:
+    image: rabbitmq
+    container_name: broker
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD}
+    ports:
+      - "${RABBITMQ_PORT}:${RABBITMQ_PORT}"
+    volumes:
+      - broker_data:/data
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 10s
+      timeout: 10s
+      retries: 2
+
+
   bot:
     build:
       context: .
@@ -32,10 +49,29 @@ services:
     volumes:
       - ./engbot:/code/bot/engbot
     depends_on: 
-    - cache
-    - db
+      db:
+        condition: service_started
+      broker:
+        condition: service_healthy
+
+  worker:
+    build:
+      dockerfile: dev.Dockerfile
+      context: .
+    container_name: worker
+    restart: always
+    entrypoint: celery -A engbot.tasks.tasks:scheduler worker
+    volumes:  
+      - ./engbot:/code/bot/engbot
+    depends_on:
+      bot:
+        condition: service_started
+      broker:
+        condition: service_healthy
+
 
 
 volumes:
   cache_data:
   db_data:
+  broker_data:
