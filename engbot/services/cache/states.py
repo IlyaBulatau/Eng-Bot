@@ -192,9 +192,10 @@ class CacheLastWordKeyboard(BaseStorage):
                 # add logging
                 ...
 
+
 class CacheTaskId(BaseStorage):
     """
-    Keeps ID of task this will be send to user like reminder  
+    Keeps ID of task this will be send to user like reminder
     """
 
     def __init__(self, cache_key: str):

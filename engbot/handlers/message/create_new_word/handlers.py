@@ -13,6 +13,7 @@ from engbot.models.words import WordField
 from engbot.utils.set_command import CommandEnum
 from engbot.services.controllers.limiters import WordLimiter
 from engbot.services.decorators.controller import controller
+from engbot.tasks.manage import TaskManager
 
 
 @controller
@@ -93,6 +94,9 @@ async def receive_translate(update: Update, context: ContextTypes.DEFAULT_TYPE):
     translate = update.effective_message.text
     state = State(update)
     state.set_data(translate=translate)
+
+    manager = TaskManager(update.effective_user.id)
+    manager.notice_about_learn()
 
     await context.bot.send_message(
         chat_id=update.effective_chat.id,
