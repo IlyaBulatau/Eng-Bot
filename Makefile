@@ -1,11 +1,8 @@
 DC = docker compose
-FILE = docker-compose.dev.yaml
+
 
 app: # up dev processes
-	$(DC) --env-file .env -f $(FILE) up -d
-
-test_db: # up test processes
-	$(DC) --env-file .env.test -f $(FILE) up -d
+	$(DC) --env-file .env -f docker-compose.dev.yaml up -d	
 
 stop: # stop all containers
 	docker stop $$(docker ps -q)
@@ -17,7 +14,7 @@ bot_log:
 	docker logs bot -f
 
 test: # run tests
-	make $(test_db)
+	$(DC) --env-file .env.test -f docker-compose.test.yaml up -d
 	pytest . -s -v
 	docker stop $$(docker ps -q)
 	docker rm $$(docker ps -a -q)

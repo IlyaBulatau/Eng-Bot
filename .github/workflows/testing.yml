@@ -40,6 +40,10 @@ jobs:
           echo MONGO_PASSWORD="test" >> ${{ env.ENV_FILE }}
           echo REDIS_HOST="localhost" >> ${{ env.ENV_FILE }}
           echo REDIS_PORT="6379" >> ${{ env.ENV_FILE }}
+          echo RABBITMQ_USER="test" >> ${{ env.ENV_FILE }}
+          echo RABBITMQ_PASSWORD="test" >> ${{ env.ENV_FILE }}
+          echo RABBITMQ_HOST="localhost" >> ${{ env.ENV_FILE }}
+          echo RABBITMQ_PORT="5672" >> ${{ env.ENV_FILE }}
     
     - name: Set up MongoDB
       run: | 

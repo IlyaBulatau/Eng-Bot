@@ -48,6 +48,10 @@ jobs:
               echo MONGO_PASSWORD=${{ secrets.MONGO_PASSWORD }} >> ${{ env.ENV_FILE }}
               echo REDIS_HOST=${{ secrets.REDIS_HOST }} >> ${{ env.ENV_FILE }}
               echo REDIS_PORT=${{ secrets.REDIS_PORT }} >> ${{ env.ENV_FILE }}
+              echo RABBITMQ_USER=${{ secrets.RABBITMQ_USER }} >> ${{ env.ENV_FILE }}
+              echo RABBITMQ_PASSWORD=${{ secrets.RABBITMQ_PASSWORD }} >> ${{ env.ENV_FILE }}
+              echo RABBITMQ_HOST=${{ secrets.RABBITMQ_HOST }} >> ${{ env.ENV_FILE }}
+              echo RABBITMQ_PORT=${{ secrets.RABBITMQ_PORT }} >> ${{ env.ENV_FILE }}
 
       - name: Restart docker container
         uses: garygrossgarten/github-action-ssh@release
