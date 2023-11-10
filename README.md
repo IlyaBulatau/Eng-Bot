@@ -63,7 +63,7 @@ poetry shell
 ___
 4. #### Create .env file.
 ```
-touch .env.test
+touch .env
 ```
 ___
 5. #### Fill in the file data according to the example .env.example.
