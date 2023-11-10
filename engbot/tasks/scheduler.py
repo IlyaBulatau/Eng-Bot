@@ -3,6 +3,6 @@ from engbot.config import Config
 
 
 scheduler = Celery(
-    backend=f"redis://{Config.REDIS_HOST}:{Config.REDIS_PORT}/0",
+    backend=f"redis://{Config.REDIS_HOST}:{Config.REDIS_PORT}/1",
     broker=f"amqp://{Config.RABBITMQ_USER}:{Config.RABBITMQ_PASSWORD}@{Config.RABBITMQ_HOST}:{Config.RABBITMQ_PORT}/",
 )
