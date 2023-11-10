@@ -191,3 +191,24 @@ class CacheLastWordKeyboard(BaseStorage):
             except BadRequest as e:
                 # add logging
                 ...
+
+class CacheTaskId(BaseStorage):
+    """
+    Keeps ID of task this will be send to user like reminder  
+    """
+
+    def __init__(self, cache_key: str):
+        super().__init__()
+        self.__cache_key = cache_key
+
+    @property
+    def cache_key(self):
+        return self.__cache_key
+
+    def get_task(self) -> str | None:
+        task_id = self.storage.get(self.cache_key)
+
+        return task_id
+
+    def set_task(self, task_id: str) -> None:
+        self.storage.set(self.cache_key, task_id)
