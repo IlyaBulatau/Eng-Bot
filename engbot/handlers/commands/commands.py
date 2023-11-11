@@ -9,12 +9,14 @@ from engbot.handlers.utils import (
     TEXT_FOR_WORDS_SHOW,
     TEXT_INFO_COMMAND,
 )
+from engbot.utils.set_command import CommandEnum
 from engbot.database.main_database.repositories.users import CreateUser
 from engbot.database.main_database.repositories.words import ListWord
 from engbot.models.users import User
 from engbot.models.words import WordList
 from engbot.services.cache.states import CahceCurrentUserPage, CacheLastWordKeyboard
 from engbot.services.decorators.controller import controller
+from engbot.services.translate.api import Translator
 
 
 @controller
@@ -87,7 +89,22 @@ async def command_words(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 @controller
 async def command_translate(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    ...
+    text = update.message.text[len(CommandEnum.TRANSLATE.value) + 1 :].strip()
+    translator = Translator()
+
+    if not text:
+        await context.bot.send_message(
+            chat_id=update.effective_user.id,
+            text="Укажите что нужно перевести, после команды `translate`",
+            parse_mode="Markdown",
+        )
+
+    translate, similars, audio = await translator.translate(text)
+    await context.bot.send_message(
+        chat_id=update.effective_user.id,
+        text=f"📝 Перевод: *{translate}*\n\n🗣️ Произношение 👇 [󠁛]({audio})",
+        parse_mode="Markdown",
+    )
 
 
 @controller
