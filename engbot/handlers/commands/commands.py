@@ -4,7 +4,11 @@ from telegram import Update
 from random import choice
 
 from engbot.utils.keyboards import keyboard_of_words
-from engbot.handlers.utils import TEXT_FOR_START_COMMAND, TEXT_FOR_WORDS_SHOW
+from engbot.handlers.utils import (
+    TEXT_FOR_START_COMMAND,
+    TEXT_FOR_WORDS_SHOW,
+    TEXT_INFO_COMMAND,
+)
 from engbot.database.main_database.repositories.users import CreateUser
 from engbot.database.main_database.repositories.words import ListWord
 from engbot.models.users import User
@@ -79,6 +83,18 @@ async def command_words(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
     # save the kb of words in cache
     cache_kb.save(message.id)
+
+
+@controller
+async def command_translate(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    ...
+
+
+@controller
+async def command_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await context.bot.send_message(
+        chat_id=update.effective_user.id, text=TEXT_INFO_COMMAND, parse_mode="Markdown"
+    )
 
 
 @controller

@@ -16,3 +16,6 @@ def assemble_commands(application: Application):
     application.add_handler(
         CommandHandler(command=CommandEnum.WORDS.value, callback=commands.command_words)
     )
+    application.add_handler(
+        CommandHandler(command=CommandEnum.INFO.value, callback=commands.command_info)
+    )
