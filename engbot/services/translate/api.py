@@ -1,5 +1,9 @@
 from aiohttp import ClientSession
 
+from engbot.utils.helpers import REGEX_ENGLISH_LETTER, REGEX_RUSSIAN_LETTER
+
+import string
+import re
 from enum import Enum
 from contextlib import asynccontextmanager
 
@@ -46,10 +50,12 @@ class Translator:
         Second - list of other translation
         Third - link on pronunciation of word
         """
+        text = text.translate(str.maketrans("", "", string.punctuation))
+        self._language_definition(text)
         url = self.format_url.format(sl=self.sl, dl=self.dl, text=text)
 
         async with self.get_session(url) as session:
-            response: dict = await session.json()
+            response: dict = await session.json(content_type=None)
 
         return self._parse_data(response)
 
@@ -72,3 +78,11 @@ class Translator:
         )
 
         return (translate_text, possible_translate, pronociation_translate)
+
+    def _language_definition(self, text):
+        if re.compile(REGEX_ENGLISH_LETTER).match(text):
+            self.sl = LanguageCodeEnum.ENGLISH.value
+            self.dl = LanguageCodeEnum.RUSSIAN.value
+        if re.compile(REGEX_RUSSIAN_LETTER).match(text):
+            self.sl = LanguageCodeEnum.RUSSIAN.value
+            self.dl = LanguageCodeEnum.ENGLISH.value
