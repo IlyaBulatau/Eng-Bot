@@ -10,6 +10,9 @@ from engbot.utils.callback_datas import (
 )
 
 
+REGEX_ENGLISH_LETTER = r"^[a-zA-z\s]+$"
+REGEX_RUSSIAN_LETTER = r"^[ёЁА-Яа-я\s]+$"
+
 DATE_FORMAT = "%d%m%Y"
 
 

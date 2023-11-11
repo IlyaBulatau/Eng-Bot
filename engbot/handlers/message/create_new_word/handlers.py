@@ -11,6 +11,7 @@ from engbot.database.main_database.repositories.words import CreateWord
 from engbot.services.cache.states import State
 from engbot.models.words import WordField
 from engbot.utils.set_command import CommandEnum
+from engbot.utils.helpers import REGEX_ENGLISH_LETTER, REGEX_RUSSIAN_LETTER
 from engbot.services.controllers.limiters import WordLimiter
 from engbot.services.decorators.controller import controller
 from engbot.tasks.manage import TaskManager
@@ -130,7 +131,7 @@ HANDLER_CREATE_NEW_WORD = ConversationHandler(
             MessageHandler(
                 filters=filters.TEXT
                 & ~filters.COMMAND
-                & filters.Regex(r"^[a-zA-z\s]+$"),
+                & filters.Regex(REGEX_ENGLISH_LETTER),
                 callback=receive_eng_word,
             ),
             MessageHandler(
@@ -141,7 +142,7 @@ HANDLER_CREATE_NEW_WORD = ConversationHandler(
             MessageHandler(
                 filters=filters.TEXT
                 & ~filters.COMMAND
-                & filters.Regex(r"^[ёЁА-Яа-я\s]+$"),
+                & filters.Regex(REGEX_RUSSIAN_LETTER),
                 callback=receive_translate,
             ),
             MessageHandler(
