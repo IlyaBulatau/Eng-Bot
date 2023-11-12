@@ -65,12 +65,12 @@ services:
       rabbitmq:
           condition: service_healthy
 
-  celery:
+  worker:
     build:
       dockerfile: dev.Dockerfile
       context: .
-    container_name: celery
-    entrypoint: celery -A engbot.tasks.tasks:scheduler worker
+    container_name: worker
+    entrypoint: celery -A engbot.tasks.tasks:scheduler worker --loglevel=info
     volumes:  
       - ./engbot:/code/bot/engbot
     depends_on:
@@ -78,7 +78,22 @@ services:
         condition: service_started
       rabbitmq:
         condition: service_healthy
-      
+
+  beater:
+    build:
+      dockerfile: dev.Dockerfile
+      context: .
+    container_name: beater
+    entrypoint: celery -A engbot.tasks.tasks beat --loglevel=info
+    volumes:  
+      - ./engbot:/code/bot/engbot
+    depends_on:
+      bot:
+        condition: service_started
+      rabbitmq:
+        condition: service_healthy
+ 
+
   flower:
     build:
       dockerfile: dev.Dockerfile
@@ -90,7 +105,7 @@ services:
     volumes:
       - ./engbot:/code/bot/engbot
     depends_on:
-      celery:
+      worker:
         condition: service_started
       rabbitmq:
         condition: service_healthy

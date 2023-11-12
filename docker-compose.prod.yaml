@@ -61,7 +61,7 @@ services:
       context: .
     container_name: worker
     restart: always
-    entrypoint: bash -c "export DEBUG=0 && celery -A engbot.tasks.tasks:scheduler worker"
+    entrypoint: bash -c "export DEBUG=0 && celery -A engbot.tasks.tasks:scheduler worker --loglevel=info"
     volumes:  
       - ./engbot:/code/bot/engbot
     depends_on:
@@ -70,6 +70,19 @@ services:
       broker:
         condition: service_healthy
 
+  beater:
+    build:
+      dockerfile: dev.Dockerfile
+      context: .
+    container_name: beater
+    entrypoint: bash -c "export DEBUG=0 && celery -A engbot.tasks.tasks beat --loglevel=info"
+    volumes:  
+      - ./engbot:/code/bot/engbot
+    depends_on:
+      bot:
+        condition: service_started
+      broker:
+        condition: service_healthy
 
 
 volumes:
