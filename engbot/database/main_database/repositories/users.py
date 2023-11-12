@@ -3,6 +3,7 @@ from engbot.database.main_database.repositories.base import CreateBase, DetailBa
 from engbot.database.mongo.repositories.users import (
     get_user_by_telegram_id,
     create_user,
+    get_all_user,
 )
 
 
@@ -35,8 +36,17 @@ class CreateUser(CreateBase):
         create_user(collection=self.connection, user_model=self.user_model)
 
 
-class ListUser:
-    ...
+class ListUser(DetailBase):
+    """
+    Class for getting all users from DB
+    Return list of user telegram ID
+    """
+
+    def __call__(self, offset: int = 0, limit: str = 1000, *args, **kwargs) -> list[str]:
+        list_of_user_id: list[str] = get_all_user(self.connection)
+
+        return list_of_user_id[offset:limit]
+    
 
 
 class UpdateUser:
