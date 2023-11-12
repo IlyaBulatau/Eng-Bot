@@ -12,6 +12,7 @@
 
 
 This bot implements the process save words and they translate.
+Also it can translate word and return pronocuation this word.
 MongoDB is a database, main models which it manage are word and user objects.
 In databse keeping user models that containe following fields: telegram_id, username or first name, language code, and list of word list models. 
 Word list model in it case has following field: created time and list of words.
@@ -38,12 +39,22 @@ Finally word model containe: english word and translate fields. These models int
 
 # Functionality
  - Adding new word
+ - Translating words
  - Showing list of words by date
  - Tracking chats updates
  - Limiting on use
- - scheduling learn reminders
+ - Scheduling and sending learn reminders
  - Controlling updates
 
+# Description commands
+ - `/start` - Greeting command
+ - `/cancel` - Resetting all works processes , for example if user is writing new word and want save, but then change his mind, he can use this command. In this case word will be not save.
+ - `/new` - Creation of a new word and its translation. At the beginning of this process, the bot requests a word in English, only letters of the English alphabet are accepted. Then the bot asks to translate this word into Russian, but the bot does not check the correctness of the translation, the user is responsible for this, and only Russian letters are accepted.
+ - `/words` - Show a list of saved words.
+ - `/translate <word or phrase>` - Translates word specifite after /translate command, you must enter the word or phrase to translate after the command.
+If after the `translate` command a phrase/word is entered in Russian, the bot will respond with an English translation and vice versa.
+Responce containe transalte and pronunciation word.
+- `/info` - Description commands
 #  How run!?
 
 1. #### Clone the repo.
