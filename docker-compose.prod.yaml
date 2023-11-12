@@ -5,7 +5,7 @@ services:
     image: redis:alpine
     restart: always
     ports:
-      - "${REDIS_PORT}:6379"
+      - "${REDIS_PORT}:${REDIS_PORT}"
     command: redis-server
     container_name: cache
     volumes:

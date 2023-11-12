@@ -162,6 +162,7 @@ class CacheLastWordKeyboard(BaseStorage):
     def __init__(self, update: Update, bot: ExtBot):
         super().__init__()
         self.bot: ExtBot = bot
+        self.ttl_sec = 31536000  # 1 year
         self.user_telegram_id: str = str(update.effective_user.id)
         self.__cache_key: str = (
             self.CACHE_PREFIX + self.CACHE_SEP + self.user_telegram_id
@@ -175,7 +176,7 @@ class CacheLastWordKeyboard(BaseStorage):
         """
         Set kb ID in cache
         """
-        self.storage.set(name=self.cache_key, value=str(kb_id))
+        self.storage.set(name=self.cache_key, value=str(kb_id), ex=self.ttl_sec)
 
     async def delete(self) -> None:
         """
@@ -200,6 +201,7 @@ class CacheTaskId(BaseStorage):
 
     def __init__(self, cache_key: str):
         super().__init__()
+        self.ttl_sec = 86400  # 1 day
         self.__cache_key = cache_key
 
     @property
@@ -212,4 +214,4 @@ class CacheTaskId(BaseStorage):
         return task_id
 
     def set_task(self, task_id: str) -> None:
-        self.storage.set(self.cache_key, task_id)
+        self.storage.set(self.cache_key, task_id, ex=self.ttl_sec)
