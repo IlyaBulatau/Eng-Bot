@@ -37,8 +37,22 @@ def get_user_by_telegram_id(collection: Collection, telegram_id: str | int) -> U
     return user
 
 
-def get_all_user(limit: int = None):
-    ...
+def get_all_user(collection: Collection) -> list[str]:
+    """
+    Return list of user telegram ID
+    """
+    pipline = [
+        {
+            "$match": {UserField.TELEGRAM_ID.value: {"$exists": 1}}
+        },
+        {
+            "$project": {UserField.TELEGRAM_ID.value: 1, MONGO_ID_FIELD: 0}
+        }
+    ]
+    dict.keys
+    data_fom_mongo = collection.aggregate(pipline)
+    result: list[str] = [dicts.get(UserField.TELEGRAM_ID.value) for dicts in data_fom_mongo]
+    return result
 
 
 def create_user(collection: Collection, user_model: User) -> None:
