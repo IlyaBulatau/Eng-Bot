@@ -12,7 +12,8 @@ from random import choice
 from typing import Callable
 
 from celery.schedules import crontab
-from telegram import Bot
+from telegram import Bot, MessageEntity
+from telegram.constants import MessageEntityType
 
 
 @scheduler.task(expire=con.EXPIRE_TIME_TO_NOTICE_LEARN)
@@ -55,33 +56,50 @@ async def _asking_translate(user_telegram_id: str | int):
     bot = Bot(Config.BOT_TOKEN)
 
     get_words = ListWord(user_telegram_id)
-    
+
     if not get_words:
         # if user doesn't have words
         await bot.send_message(
             chat_id=str(user_telegram_id),
-            text="👋 Хей, вы еще не записали ни одного слова.\n\n📚 Let's go study! /words"
+            text="👋 Хей, вы еще не записали ни одного слова.\n\n📚 Let's go study! /words",
         )
         return
-      
+
     words_on_date: WordList = choice(get_words())
     list_of_dict: list[dict] = words_on_date.model_dump().get(WordListField.WORDS.value)
     word: dict = choice(list_of_dict)
 
+    eng_word = word.get(WordField.ENG_WORD.value)
+    translate = word.get(WordField.TRANSlATE.value)
+
+    # start entity text
+    start_eng_word = 95
+    start_translate = start_eng_word + len(eng_word) + 3
+
     await bot.send_message(
         chat_id=str(user_telegram_id),
         text=TEXT_FOR_ASKING.format(
-            eng_word=word.get(WordField.ENG_WORD.value.capitalize())
+            eng_word=eng_word.capitalize(),
+            translate=translate.capitalize(),
         ),
-        parse_mode="Markdown",
-    )  # TODO - make the answer contain spoiler text - || transalte ||
+        entities=[
+            MessageEntity(
+                type=MessageEntityType.SPOILER,
+                offset=start_translate,
+                length=len(translate),
+            ),
+            MessageEntity(
+                type=MessageEntityType.BOLD, offset=start_eng_word, length=len(eng_word)
+            ),
+        ],
+    )
 
 
 scheduler.conf.beat_schedule = {
     "setup-task-on-once-day": {
         "task": "engbot.tasks.tasks.asking_translate",
         "schedule": crontab(
-            hour=TIME_ASKING_TRANSLATE.get("hour", 17),
+            hour=TIME_ASKING_TRANSLATE.get("hour", 13),
             minute=TIME_ASKING_TRANSLATE.get("minute", 30),
         ),
     }
