@@ -56,7 +56,7 @@ async def _asking_translate(user_telegram_id: str | int):
     bot = Bot(Config.BOT_TOKEN)
 
     get_words = ListWord(user_telegram_id)
-    
+
     if not get_words():
         # if user doesn't have words
         await bot.send_message(

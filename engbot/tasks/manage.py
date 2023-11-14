@@ -32,11 +32,13 @@ class TaskManager:
         if old_task_id:
             AsyncResult(id=old_task_id).revoke()
 
+        eta = self._eta_calculate()
         result: AsyncResult = tasks.notice_user_about_learn.apply_async(
-            (self.user_telegram_id,), eta=self._eta_calculate(), shadow=self.task_name
+            (self.user_telegram_id,), eta=eta, shadow=self.task_name
         )
 
-        cache.set_task(result.id)
+        ttl = eta - datetime.now()
+        cache.set_task(result.id, int(ttl.seconds))
 
     def _eta_calculate(self) -> datetime:
         """

@@ -213,5 +213,6 @@ class CacheTaskId(BaseStorage):
 
         return task_id
 
-    def set_task(self, task_id: str) -> None:
-        self.storage.set(self.cache_key, task_id, ex=self.ttl_sec)
+    def set_task(self, task_id: str, ttl: int | None) -> None:
+        ex = ttl if ttl else self.ttl_sec
+        self.storage.set(self.cache_key, task_id, ex=ex)
